@@ -1,4 +1,4 @@
-import { ChainId, Currency, CurrencyAmount, Token, TokenAmount, WETH } from '@uniswap/sdk'
+import { ChainId, Currency, CurrencyAmount, Token, TokenAmount } from '@uniswap/sdk'
 import { NATIVE_TOKENS, WRAPPED_NATIVE } from '../constants'
 
 export function wrappedCurrency(currency: Currency | undefined, chainId: ChainId | undefined): Token | undefined {

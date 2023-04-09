@@ -2,7 +2,7 @@ import { ChainId, Token } from '@uniswap/sdk'
 import { TokenInfo, TokenList } from '@uniswap/token-lists'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { ALL_TOKENS, DEFAULT_TOKEN_LIST_URL, TOKEN_LIST_BY_CHAIN_ID } from '../../constants'
+import { DEFAULT_TOKEN_LIST_URL, TOKEN_LIST_BY_CHAIN_ID } from '../../constants'
 import { AppState } from '../index'
 import { useActiveWeb3React } from '../../hooks'
 
