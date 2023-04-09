@@ -44,7 +44,8 @@ export default function VersionSwitch() {
   const version = useToggledVersion()
   const location = useLocation()
   const query = useParsedQueryString()
-  const versionSwitchAvailable = location.pathname === '/swap' || location.pathname === '/send'
+  //   const versionSwitchAvailable = location.pathname === '/swap' || location.pathname === '/send'
+  const versionSwitchAvailable = false
 
   const toggleDest = useMemo(() => {
     return versionSwitchAvailable

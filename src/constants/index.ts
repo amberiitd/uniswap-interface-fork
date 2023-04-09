@@ -27,8 +27,10 @@ export const NATIVE_TOKENS: {
   [ChainId.KOVAN]: Currency.ETHER
 }
 
+const UNI_V2 = new Token(ChainId.MUMBAI, '0x22fDDde296579FddAeaD280c4Ad4Df2D3B84093f', 18, 'UNI', 'Uniswap')
 const WMATIC = new Token(ChainId.MUMBAI, '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889', 18, 'WMATIC', 'Wrapped MATIC')
 const NAZT = new Token(ChainId.MUMBAI, '0xf6998DC58bB5C47fd8c47304dD0C3F60b6CCF7f7', 18, 'NAZT', 'NAZT swap')
+
 export const DAI = new Token(ChainId.MAINNET, '0x6B175474E89094C44Da98b954EedeAC495271d0F', 18, 'DAI', 'Dai Stablecoin')
 export const USDC = new Token(ChainId.MAINNET, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', 6, 'USDC', 'USD//C')
 export const USDT = new Token(ChainId.MAINNET, '0xdAC17F958D2ee523a2206206994597C13D831ec7', 6, 'USDT', 'Tether USD')
@@ -114,7 +116,14 @@ export const ALL_TOKENS: { [chainId in ChainId]: TokenInfo[] } = {
       name: NAZT.name || '',
       symbol: NAZT.symbol || '',
       decimals: NAZT.decimals
-    }
+    },
+    {
+        chainId: UNI_V2.chainId,
+        address: UNI_V2.address,
+        name: UNI_V2.name || '',
+        symbol: UNI_V2.symbol || '',
+        decimals: UNI_V2.decimals
+      }
   ]
 }
 
@@ -183,7 +192,8 @@ export const SUGGESTED_BASES: ChainTokenList = {
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   ...WRAPPED_TOKEN_ONLY,
-  [ChainId.MAINNET]: [...WRAPPED_TOKEN_ONLY[ChainId.MAINNET], DAI, USDC, USDT]
+  [ChainId.MAINNET]: [...WRAPPED_TOKEN_ONLY[ChainId.MAINNET], DAI, USDC, USDT],
+  [ChainId.MUMBAI]: [...WRAPPED_TOKEN_ONLY[ChainId.MUMBAI], NAZT]
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
