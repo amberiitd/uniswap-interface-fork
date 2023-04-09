@@ -1,5 +1,5 @@
 import { parseBytes32String } from '@ethersproject/strings'
-import { Currency, ETHER, Token } from '@uniswap/sdk'
+import { Currency, ETHER, Token, ChainId } from '@uniswap/sdk'
 import { useMemo } from 'react'
 import { useDefaultTokenList } from '../state/lists/hooks'
 import { NEVER_RELOAD, useSingleCallResult } from '../state/multicall/hooks'
@@ -8,6 +8,7 @@ import { isAddress } from '../utils'
 
 import { useActiveWeb3React } from './index'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
+import { NATIVE_TOKENS } from '../constants'
 
 export function useAllTokens(): { [address: string]: Token } {
   const { chainId } = useActiveWeb3React()
@@ -96,7 +97,8 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
 }
 
 export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
-  const isETH = currencyId?.toUpperCase() === 'ETH'
-  const token = useToken(isETH ? undefined : currencyId)
-  return isETH ? ETHER : token
+  const { chainId } = useActiveWeb3React()
+  const isNative = currencyId?.toUpperCase() === NATIVE_TOKENS[chainId as ChainId].symbol
+  const token = useToken(isNative ? undefined : currencyId)
+  return isNative ? NATIVE_TOKENS[chainId as ChainId] : token
 }

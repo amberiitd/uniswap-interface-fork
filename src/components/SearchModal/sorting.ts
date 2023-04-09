@@ -2,6 +2,7 @@ import { Token, TokenAmount, WETH } from '@uniswap/sdk'
 import { useMemo } from 'react'
 import { useActiveWeb3React } from '../../hooks'
 import { useAllTokenBalances } from '../../state/wallet/hooks'
+import { WRAPPED_NATIVE } from '../../constants'
 
 // compare two token amounts with highest one coming first
 function balanceComparator(balanceA?: TokenAmount, balanceB?: TokenAmount) {
@@ -43,7 +44,7 @@ function getTokenComparator(
 
 export function useTokenComparator(inverted: boolean): (tokenA: Token, tokenB: Token) => number {
   const { chainId } = useActiveWeb3React()
-  const weth = WETH[chainId]
+  const weth = WRAPPED_NATIVE[chainId]
   const balances = useAllTokenBalances()
   const comparator = useMemo(() => getTokenComparator(weth, balances ?? {}), [balances, weth])
   return useMemo(() => {
