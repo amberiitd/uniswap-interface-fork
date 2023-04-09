@@ -50,7 +50,7 @@ export default function CommonBases({
         >
           <CurrencyLogo currency={NATIVE_TOKENS[chainId]} style={{ marginRight: 8 }} />
           <Text fontWeight={500} fontSize={16}>
-            ETH
+            {NATIVE_TOKENS[chainId].symbol}
           </Text>
         </BaseWrapper>
         {(chainId ? SUGGESTED_BASES[chainId] : []).map((token: Token) => {

@@ -1,9 +1,11 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { ChainId, JSBI, Percent, Token, WETH, Currency } from '@uniswap/sdk'
+import { TokenInfo, TokenList } from '@uniswap/token-lists/dist/types'
+import { VersionUpgrade } from '@uniswap/token-lists'
 
 import { fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
 
-export const ROUTER_ADDRESS = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
+export const ROUTER_ADDRESS = '0xcf2bD0a007Dc5727a1A919cfEf9E37bD6C38cA8b'
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -13,21 +15,20 @@ type ChainTokenList = {
 export const NATIVE_TOKENS: {
   readonly [chainId in ChainId]: Currency
 } = {
-    80001: {
-        decimals: 18,
-        symbol: 'MATIC',
-        name: 'Matic'
-    },
-    [ChainId.MAINNET]: Currency.ETHER,
-    [ChainId.ROPSTEN]: Currency.ETHER,
-    [ChainId.RINKEBY]: Currency.ETHER,
-    [ChainId.GÖRLI]: Currency.ETHER,
-    [ChainId.KOVAN]: Currency.ETHER,
-
+  80001: {
+    decimals: 18,
+    symbol: 'MATIC',
+    name: 'Matic'
+  },
+  [ChainId.MAINNET]: Currency.ETHER,
+  [ChainId.ROPSTEN]: Currency.ETHER,
+  [ChainId.RINKEBY]: Currency.ETHER,
+  [ChainId.GÖRLI]: Currency.ETHER,
+  [ChainId.KOVAN]: Currency.ETHER
 }
 
-const WMATIC = new Token(ChainId.MUMBAI, '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889', 18, 'WMATIC', 'Wrapped MATIC');
-
+const WMATIC = new Token(ChainId.MUMBAI, '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889', 18, 'WMATIC', 'Wrapped MATIC')
+const NAZT = new Token(ChainId.MUMBAI, '0xf6998DC58bB5C47fd8c47304dD0C3F60b6CCF7f7', 18, 'NAZT', 'NAZT swap')
 export const DAI = new Token(ChainId.MAINNET, '0x6B175474E89094C44Da98b954EedeAC495271d0F', 18, 'DAI', 'Dai Stablecoin')
 export const USDC = new Token(ChainId.MAINNET, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', 6, 'USDC', 'USD//C')
 export const USDT = new Token(ChainId.MAINNET, '0xdAC17F958D2ee523a2206206994597C13D831ec7', 6, 'USDT', 'Tether USD')
@@ -44,14 +45,118 @@ const WRAPPED_TOKEN_ONLY: ChainTokenList = {
   [ChainId.MUMBAI]: [WMATIC]
 }
 
-export const WRAPPED_NATIVE: {[chainId in ChainId]: Token} =  {
-    [ChainId.MAINNET]: WETH[ChainId.MAINNET],
-    [ChainId.ROPSTEN]: WETH[ChainId.ROPSTEN],
-    [ChainId.RINKEBY]: WETH[ChainId.RINKEBY],
-    [ChainId.GÖRLI]: WETH[ChainId.GÖRLI],
-    [ChainId.KOVAN]: WETH[ChainId.KOVAN],
-    [ChainId.MUMBAI]: WMATIC
+export const WRAPPED_NATIVE: { [chainId in ChainId]: Token } = {
+  [ChainId.MAINNET]: WETH[ChainId.MAINNET],
+  [ChainId.ROPSTEN]: WETH[ChainId.ROPSTEN],
+  [ChainId.RINKEBY]: WETH[ChainId.RINKEBY],
+  [ChainId.GÖRLI]: WETH[ChainId.GÖRLI],
+  [ChainId.KOVAN]: WETH[ChainId.KOVAN],
+  [ChainId.MUMBAI]: WMATIC
+}
+
+export const ALL_TOKENS: { [chainId in ChainId]: TokenInfo[] } = {
+  [ChainId.MAINNET]: [
+    {
+      chainId: ChainId.MAINNET,
+      address: WETH[ChainId.MAINNET].address,
+      name: WETH[ChainId.MAINNET].name || '',
+      symbol: WETH[ChainId.MAINNET].symbol || '',
+      decimals: WETH[ChainId.MAINNET].decimals
+    }
+  ],
+  [ChainId.ROPSTEN]: [
+    {
+      chainId: ChainId.ROPSTEN,
+      address: WETH[ChainId.ROPSTEN].address,
+      name: WETH[ChainId.ROPSTEN].name || '',
+      symbol: WETH[ChainId.ROPSTEN].symbol || '',
+      decimals: WETH[ChainId.ROPSTEN].decimals
+    }
+  ],
+  [ChainId.RINKEBY]: [
+    {
+      chainId: ChainId.RINKEBY,
+      address: WETH[ChainId.RINKEBY].address,
+      name: WETH[ChainId.RINKEBY].name || '',
+      symbol: WETH[ChainId.RINKEBY].symbol || '',
+      decimals: WETH[ChainId.RINKEBY].decimals
+    }
+  ],
+  [ChainId.GÖRLI]: [
+    {
+      chainId: ChainId.GÖRLI,
+      address: WETH[ChainId.GÖRLI].address,
+      name: WETH[ChainId.GÖRLI].name || '',
+      symbol: WETH[ChainId.GÖRLI].symbol || '',
+      decimals: WETH[ChainId.GÖRLI].decimals
+    }
+  ],
+  [ChainId.KOVAN]: [
+    {
+      chainId: ChainId.KOVAN,
+      address: WETH[ChainId.KOVAN].address,
+      name: WETH[ChainId.KOVAN].name || '',
+      symbol: WETH[ChainId.KOVAN].symbol || '',
+      decimals: WETH[ChainId.KOVAN].decimals
+    }
+  ],
+  [ChainId.MUMBAI]: [
+    {
+      chainId: WMATIC.chainId,
+      address: WMATIC.address,
+      name: WMATIC.name || '',
+      symbol: WMATIC.symbol || '',
+      decimals: WMATIC.decimals
+    },
+    {
+      chainId: NAZT.chainId,
+      address: NAZT.address,
+      name: NAZT.name || '',
+      symbol: NAZT.symbol || '',
+      decimals: NAZT.decimals
+    }
+  ]
+}
+
+const initTime = new Date().toISOString()
+export const TOKEN_LIST_BY_CHAIN_ID: { [key: number]: TokenList } = {
+  1: {
+    name: 'ETHER',
+    timestamp: initTime,
+    version: { major: VersionUpgrade.MAJOR, minor: VersionUpgrade.MINOR, patch: VersionUpgrade.PATCH },
+    tokens: ALL_TOKENS[1]
+  },
+  3: {
+    name: 'ETHER',
+    timestamp: initTime,
+    version: { major: VersionUpgrade.MAJOR, minor: VersionUpgrade.MINOR, patch: VersionUpgrade.PATCH },
+    tokens: ALL_TOKENS[3]
+  },
+  4: {
+    name: 'ETHER',
+    timestamp: initTime,
+    version: { major: VersionUpgrade.MAJOR, minor: VersionUpgrade.MINOR, patch: VersionUpgrade.PATCH },
+    tokens: ALL_TOKENS[4]
+  },
+  5: {
+    name: 'ETHER',
+    timestamp: initTime,
+    version: { major: VersionUpgrade.MAJOR, minor: VersionUpgrade.MINOR, patch: VersionUpgrade.PATCH },
+    tokens: ALL_TOKENS[5]
+  },
+  42: {
+    name: 'ETHER',
+    timestamp: initTime,
+    version: { major: VersionUpgrade.MAJOR, minor: VersionUpgrade.MINOR, patch: VersionUpgrade.PATCH },
+    tokens: ALL_TOKENS[42]
+  },
+  80001: {
+    name: 'ETHER',
+    timestamp: initTime,
+    version: { major: VersionUpgrade.MAJOR, minor: VersionUpgrade.MINOR, patch: VersionUpgrade.PATCH },
+    tokens: ALL_TOKENS[80001]
   }
+}
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {

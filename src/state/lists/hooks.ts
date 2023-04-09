@@ -2,8 +2,9 @@ import { ChainId, Token } from '@uniswap/sdk'
 import { TokenInfo, TokenList } from '@uniswap/token-lists'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { DEFAULT_TOKEN_LIST_URL } from '../../constants'
+import { ALL_TOKENS, DEFAULT_TOKEN_LIST_URL, TOKEN_LIST_BY_CHAIN_ID } from '../../constants'
 import { AppState } from '../index'
+import { useActiveWeb3React } from '../../hooks'
 
 /**
  * Token instances created from token info.
@@ -59,12 +60,14 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
 }
 
 export function useTokenList(url: string): TokenAddressMap {
-  const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
+  const { chainId } = useActiveWeb3React()
+    // const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
+//   const listMap = useSelector<AppState, AppState['lists']>(state => state.lists)
   return useMemo(() => {
-    const current = lists[url]?.current
+    const current = TOKEN_LIST_BY_CHAIN_ID[chainId as ChainId]
     if (!current) return EMPTY_LIST
     return listToTokenMap(current)
-  }, [lists, url])
+  }, [chainId])
 }
 
 export function useDefaultTokenList(): TokenAddressMap {
