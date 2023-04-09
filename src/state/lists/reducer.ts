@@ -12,11 +12,15 @@ export interface ListsState {
       readonly loadingRequestId: string | null
       readonly error: string | null
     }
-  }
+  };
+  readonly byChainId: {
+    readonly [key: number]: TokenList
+  };
 }
 
 const initialState: ListsState = {
-  byUrl: {}
+  byUrl: {},
+  byChainId: {}
 }
 
 export default createReducer(initialState, builder =>
