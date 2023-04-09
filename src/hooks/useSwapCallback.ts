@@ -92,7 +92,7 @@ function useSwapCallArguments(
         break
       case Version.v1:
         swapMethods.push(
-          v1SwapArguments(trade, {
+          v1SwapArguments(trade, chainId, {
             allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
             recipient,
             ttl: deadline

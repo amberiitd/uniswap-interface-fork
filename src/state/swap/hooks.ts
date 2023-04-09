@@ -1,7 +1,7 @@
 import useENS from '../../hooks/useENS'
 import { Version } from '../../hooks/useToggledVersion'
 import { parseUnits } from '@ethersproject/units'
-import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount, Trade, ChainId } from '@uniswap/sdk'
+import { Currency, CurrencyAmount, JSBI, Token, TokenAmount, Trade, ChainId } from '@uniswap/sdk'
 import { ParsedQs } from 'qs'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -37,7 +37,7 @@ export function useSwapActionHandlers(): {
       dispatch(
         selectCurrency({
           field,
-          currencyId: currency instanceof Token ? currency.address : currency === ETHER ? NATIVE_TOKENS[chainId as ChainId].symbol as string : ''
+          currencyId: currency instanceof Token ? currency.address : currency === NATIVE_TOKENS[chainId as ChainId]  ? NATIVE_TOKENS[chainId as ChainId].symbol as string : ''
         })
       )
     },
@@ -197,7 +197,7 @@ function parseCurrencyFromURLParameter(urlParam: any, chainId: ChainId): string 
     const valid = isAddress(urlParam)
     if (valid) return valid
     if (urlParam.toUpperCase() === NATIVE_TOKENS[chainId as ChainId].symbol) return (NATIVE_TOKENS[chainId as ChainId].symbol as string)
-    if (valid === false) return (NATIVE_TOKENS[chainId as ChainId].symbol || 'ETH')
+    if (valid === false) return (NATIVE_TOKENS[chainId as ChainId].symbol as string)
   }
   return NATIVE_TOKENS[chainId as ChainId].symbol ?? ''
 }

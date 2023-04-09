@@ -1,4 +1,4 @@
-import { Currency, ETHER, JSBI, TokenAmount } from '@uniswap/sdk'
+import { Currency, JSBI, TokenAmount } from '@uniswap/sdk'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Plus } from 'react-feather'
 import { Text } from 'rebass'
@@ -19,6 +19,7 @@ import { currencyId } from '../../utils/currencyId'
 import AppBody from '../AppBody'
 import { Dots } from '../Pool/styleds'
 import { ChainId } from '../../../@uniswap/sdk/dist/constants'
+import { NATIVE_TOKENS } from '../../constants'
 
 enum Fields {
   TOKEN0 = 0,
@@ -31,7 +32,7 @@ export default function PoolFinder() {
   const [showSearch, setShowSearch] = useState<boolean>(false)
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
 
-  const [currency0, setCurrency0] = useState<Currency | null>(ETHER)
+  const [currency0, setCurrency0] = useState<Currency | null>(NATIVE_TOKENS[chainId as ChainId])
   const [currency1, setCurrency1] = useState<Currency | null>(null)
 
   const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined)
@@ -41,6 +42,10 @@ export default function PoolFinder() {
       addPair(pair)
     }
   }, [pair, addPair])
+
+  useEffect(() => {
+    setCurrency0(NATIVE_TOKENS[chainId as ChainId])
+  }, [chainId])
 
   const validPairNoLiquidity: boolean =
     pairState === PairState.NOT_EXISTS ||

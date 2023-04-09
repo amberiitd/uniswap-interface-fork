@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount } from '@uniswap/sdk'
+import { Currency, CurrencyAmount, JSBI, Token, TokenAmount, ChainId } from '@uniswap/sdk'
 import { useMemo } from 'react'
 import ERC20_INTERFACE from '../../constants/abis/erc20'
 import { useAllTokens } from '../../hooks/Tokens'
@@ -6,6 +6,7 @@ import { useActiveWeb3React } from '../../hooks'
 import { useMulticallContract } from '../../hooks/useContract'
 import { isAddress } from '../../utils'
 import { useSingleContractMultipleData, useMultipleContractSingleData } from '../multicall/hooks'
+import { NATIVE_TOKENS } from '../../constants'
 
 /**
  * Returns a map of the given addresses to their eventually consistent ETH balances.
@@ -98,12 +99,16 @@ export function useCurrencyBalances(
   account?: string,
   currencies?: (Currency | undefined)[]
 ): (CurrencyAmount | undefined)[] {
+  const { chainId } = useActiveWeb3React()
   const tokens = useMemo(() => currencies?.filter((currency): currency is Token => currency instanceof Token) ?? [], [
     currencies
   ])
 
   const tokenBalances = useTokenBalances(account, tokens)
-  const containsETH: boolean = useMemo(() => currencies?.some(currency => currency === ETHER) ?? false, [currencies])
+  const containsETH: boolean = useMemo(
+    () => currencies?.some(currency => chainId && currency === NATIVE_TOKENS[chainId]) ?? false,
+    [currencies]
+  )
   const ethBalance = useETHBalances(containsETH ? [account] : [])
 
   return useMemo(
@@ -111,7 +116,7 @@ export function useCurrencyBalances(
       currencies?.map(currency => {
         if (!account || !currency) return
         if (currency instanceof Token) return tokenBalances[currency.address]
-        if (currency === ETHER) return ethBalance[account]
+        if (currency === NATIVE_TOKENS[chainId as ChainId]) return ethBalance[account]
         return
       }) ?? [],
     [account, currencies, ethBalance, tokenBalances]

@@ -176,7 +176,7 @@ export function useTokenWarningDismissal(chainId?: number, token?: Currency): [b
 
   // get default list, mark as dismissed if on list
   const defaultList = useDefaultTokenList()
-  const isDefault = isDefaultToken(defaultList, token)
+  const isDefault = isDefaultToken(defaultList,chainId as ChainId, token)
 
   return useMemo(() => {
     if (!chainId || !token) return [false, null]

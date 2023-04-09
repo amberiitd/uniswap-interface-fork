@@ -29,7 +29,7 @@ export default function MigrateV1() {
   // automatically add the search token
   const token = useToken(tokenSearch)
   const defaultTokens = useDefaultTokenList()
-  const isDefault = isDefaultToken(defaultTokens, token)
+  const isDefault = isDefaultToken(defaultTokens, chainId, token)
   const allTokens = useAllTokens()
   const addToken = useAddUserToken()
   useEffect(() => {

@@ -1,7 +1,7 @@
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, ETHER, Percent, WETH, ChainId } from '@uniswap/sdk'
+import { Currency, currencyEquals, Percent, WETH, ChainId } from '@uniswap/sdk'
 import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { ArrowDown, Plus } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -200,8 +200,8 @@ export default function RemoveLiquidity({
     const liquidityAmount = parsedAmounts[Field.LIQUIDITY]
     if (!liquidityAmount) throw new Error('missing liquidity amount')
 
-    const currencyBIsETH = currencyB === ETHER
-    const oneCurrencyIsETH = currencyA === ETHER || currencyBIsETH
+    const currencyBIsETH = currencyB === NATIVE_TOKENS[chainId as ChainId]
+    const oneCurrencyIsETH = currencyA === NATIVE_TOKENS[chainId as ChainId] || currencyBIsETH
     const deadlineFromNow = Math.ceil(Date.now() / 1000) + deadline
 
     if (!tokenA || !tokenB) throw new Error('could not wrap')
@@ -420,7 +420,7 @@ export default function RemoveLiquidity({
     [onUserInput]
   )
 
-  const oneCurrencyIsETH = currencyA === ETHER || currencyB === ETHER
+  const oneCurrencyIsETH = currencyA === NATIVE_TOKENS[chainId as ChainId] || currencyB === NATIVE_TOKENS[chainId as ChainId]
   const oneCurrencyIsWETH = Boolean(
     chainId &&
       ((currencyA && currencyEquals(WRAPPED_NATIVE[chainId], currencyA)) ||
@@ -554,8 +554,8 @@ export default function RemoveLiquidity({
                       <RowBetween style={{ justifyContent: 'flex-end' }}>
                         {oneCurrencyIsETH ? (
                           <StyledInternalLink
-                            to={`/remove/${currencyA === ETHER ? WRAPPED_NATIVE[chainId].address : currencyIdA}/${
-                              currencyB === ETHER ? WRAPPED_NATIVE[chainId].address : currencyIdB
+                            to={`/remove/${currencyA === NATIVE_TOKENS[chainId as ChainId] ? WRAPPED_NATIVE[chainId].address : currencyIdA}/${
+                              currencyB === NATIVE_TOKENS[chainId as ChainId] ? WRAPPED_NATIVE[chainId].address : currencyIdB
                             }`}
                           >
                             Receive WETH

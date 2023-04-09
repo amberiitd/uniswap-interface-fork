@@ -16,9 +16,11 @@ import CurrencyLogo from '../CurrencyLogo'
 import { FadedSpan, MenuItem } from './styleds'
 import Loader from '../Loader'
 import { isDefaultToken } from '../../utils'
+import { NATIVE_TOKENS } from '../../constants'
+import { ChainId } from '../../../@uniswap/sdk/dist'
 
-function currencyKey(currency: Currency): string {
-  return currency instanceof Token ? currency.address : currency === ETHER ? 'ETHER' : ''
+function currencyKey(currency: Currency, chainId: ChainId): string {
+  return currency instanceof Token ? currency.address : currency === ETHER ? 'ETHER' : NATIVE_TOKENS[chainId].symbol
 }
 
 export default function CurrencyList({
@@ -46,11 +48,11 @@ export default function CurrencyList({
 
   const CurrencyRow = useMemo(() => {
     return memo(function CurrencyRow({ index, style }: { index: number; style: CSSProperties }) {
-      const currency = index === 0 ? Currency.ETHER : currencies[index - 1]
-      const key = currencyKey(currency)
-      const isDefault = isDefaultToken(defaultTokens, currency)
+      const currency = index === 0 ? NATIVE_TOKENS[chainId] : currencies[index - 1]
+      const key = currencyKey(currency, chainId)
+      const isDefault = isDefaultToken(defaultTokens, chainId, currency)
       const customAdded = Boolean(!isDefault && currency instanceof Token && allTokens[currency.address])
-      const balance = currency === ETHER ? ETHBalance : allBalances[key]
+      const balance = currency === NATIVE_TOKENS[chainId] ? ETHBalance : allBalances[key]
 
       const zeroBalance = balance && JSBI.equal(JSBI.BigInt(0), balance.raw)
 
@@ -147,7 +149,7 @@ export default function CurrencyList({
       itemCount={currencies.length + 1}
       itemSize={56}
       style={{ flex: '1' }}
-      itemKey={index => currencyKey(currencies[index])}
+      itemKey={index => currencyKey(currencies[index], chainId)}
     >
       {CurrencyRow}
     </FixedSizeList>

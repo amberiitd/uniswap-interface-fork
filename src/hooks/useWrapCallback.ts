@@ -1,11 +1,11 @@
-import { Currency, currencyEquals, ETHER, WETH } from '@uniswap/sdk'
+import { Currency, currencyEquals } from '@uniswap/sdk'
 import { useMemo } from 'react'
 import { tryParseAmount } from '../state/swap/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { useCurrencyBalance } from '../state/wallet/hooks'
 import { useActiveWeb3React } from './index'
 import { useWETHContract } from './useContract'
-import { WRAPPED_NATIVE } from '../constants'
+import { NATIVE_TOKENS, WRAPPED_NATIVE } from '../constants'
 
 export enum WrapType {
   NOT_APPLICABLE,
@@ -37,7 +37,7 @@ export default function useWrapCallback(
 
     const sufficientBalance = inputAmount && balance && !balance.lessThan(inputAmount)
 
-    if (inputCurrency === ETHER && currencyEquals(WRAPPED_NATIVE[chainId], outputCurrency)) {
+    if (inputCurrency === NATIVE_TOKENS[chainId] && currencyEquals(WRAPPED_NATIVE[chainId], outputCurrency)) {
       return {
         wrapType: WrapType.WRAP,
         execute:
@@ -53,7 +53,7 @@ export default function useWrapCallback(
             : undefined,
         inputError: sufficientBalance ? undefined : 'Insufficient ETH balance'
       }
-    } else if (currencyEquals(WRAPPED_NATIVE[chainId], inputCurrency) && outputCurrency === ETHER) {
+    } else if (currencyEquals(WRAPPED_NATIVE[chainId], inputCurrency) && outputCurrency === NATIVE_TOKENS[chainId]) {
       return {
         wrapType: WrapType.UNWRAP,
         execute:

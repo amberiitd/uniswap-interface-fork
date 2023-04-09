@@ -4,7 +4,6 @@ import {
   Currency,
   CurrencyAmount,
   currencyEquals,
-  ETHER,
   JSBI,
   Pair,
   Percent,
@@ -13,7 +12,7 @@ import {
   TokenAmount,
   Trade,
   TradeType,
-  WETH
+  ChainId
 } from '@uniswap/sdk'
 import { useMemo } from 'react'
 import { useActiveWeb3React } from '../hooks'
@@ -22,7 +21,7 @@ import { useV1FactoryContract } from '../hooks/useContract'
 import { Version } from '../hooks/useToggledVersion'
 import { NEVER_RELOAD, useSingleCallResult, useSingleContractMultipleData } from '../state/multicall/hooks'
 import { useETHBalances, useTokenBalance, useTokenBalances } from '../state/wallet/hooks'
-import { WRAPPED_NATIVE } from '../constants'
+import { NATIVE_TOKENS, WRAPPED_NATIVE } from '../constants'
 
 export function useV1ExchangeAddress(tokenAddress?: string): string | undefined {
   const contract = useV1FactoryContract()
@@ -105,12 +104,13 @@ export function useV1Trade(
   outputCurrency?: Currency,
   exactAmount?: CurrencyAmount
 ): Trade | undefined {
+    const {chainId} = useActiveWeb3React();
   // get the mock v1 pairs
   const inputPair = useMockV1Pair(inputCurrency)
   const outputPair = useMockV1Pair(outputCurrency)
 
-  const inputIsETH = inputCurrency === ETHER
-  const outputIsETH = outputCurrency === ETHER
+  const inputIsETH = inputCurrency === NATIVE_TOKENS[chainId as ChainId]
+  const outputIsETH = outputCurrency === NATIVE_TOKENS[chainId as ChainId]
 
   // construct a direct or through ETH v1 route
   let pairs: Pair[] = []

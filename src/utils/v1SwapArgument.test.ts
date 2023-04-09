@@ -19,7 +19,7 @@ describe('v1SwapArguments', () => {
 
   it('exact eth to token', () => {
     const trade = Trade.exactIn(new Route([USDC_WETH], ETHER), CurrencyAmount.ether('100'))
-    const result = v1SwapArguments(trade, {
+    const result = v1SwapArguments(trade, 1, {
       recipient: TEST_RECIPIENT_ADDRESS,
       allowedSlippage: new Percent('1', '100'),
       ttl: 20 * 60
@@ -32,7 +32,7 @@ describe('v1SwapArguments', () => {
   })
   it('exact token to eth', () => {
     const trade = Trade.exactIn(new Route([USDC_WETH], USDC, ETHER), new TokenAmount(USDC, '100'))
-    const result = v1SwapArguments(trade, {
+    const result = v1SwapArguments(trade,1, {
       recipient: TEST_RECIPIENT_ADDRESS,
       allowedSlippage: new Percent('1', '100'),
       ttl: 20 * 60
@@ -46,7 +46,7 @@ describe('v1SwapArguments', () => {
   })
   it('exact token to token', () => {
     const trade = Trade.exactIn(new Route([USDC_WETH, DAI_WETH], USDC), new TokenAmount(USDC, '100'))
-    const result = v1SwapArguments(trade, {
+    const result = v1SwapArguments(trade,1, {
       recipient: TEST_RECIPIENT_ADDRESS,
       allowedSlippage: new Percent('1', '100'),
       ttl: 20 * 60
@@ -62,7 +62,7 @@ describe('v1SwapArguments', () => {
   })
   it('eth to exact token', () => {
     const trade = Trade.exactOut(new Route([USDC_WETH], ETHER), new TokenAmount(USDC, '100'))
-    const result = v1SwapArguments(trade, {
+    const result = v1SwapArguments(trade,1, {
       recipient: TEST_RECIPIENT_ADDRESS,
       allowedSlippage: new Percent('1', '100'),
       ttl: 20 * 60
@@ -75,7 +75,7 @@ describe('v1SwapArguments', () => {
   })
   it('token to exact eth', () => {
     const trade = Trade.exactOut(new Route([USDC_WETH], USDC, ETHER), CurrencyAmount.ether('100'))
-    const result = v1SwapArguments(trade, {
+    const result = v1SwapArguments(trade,1, {
       recipient: TEST_RECIPIENT_ADDRESS,
       allowedSlippage: new Percent('1', '100'),
       ttl: 20 * 60
@@ -89,7 +89,7 @@ describe('v1SwapArguments', () => {
   })
   it('token to exact token', () => {
     const trade = Trade.exactOut(new Route([USDC_WETH, DAI_WETH], USDC), new TokenAmount(DAI, '100'))
-    const result = v1SwapArguments(trade, {
+    const result = v1SwapArguments(trade,1, {
       recipient: TEST_RECIPIENT_ADDRESS,
       allowedSlippage: new Percent('1', '100'),
       ttl: 20 * 60

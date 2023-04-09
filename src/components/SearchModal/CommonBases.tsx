@@ -1,13 +1,14 @@
 import React from 'react'
 import { Text } from 'rebass'
-import { ChainId, Currency, currencyEquals, ETHER, Token } from '@uniswap/sdk'
+import { ChainId, Currency, currencyEquals, Token } from '@uniswap/sdk'
 import styled from 'styled-components'
 
-import { SUGGESTED_BASES } from '../../constants'
+import { NATIVE_TOKENS, SUGGESTED_BASES } from '../../constants'
 import { AutoColumn } from '../Column'
 import QuestionHelper from '../QuestionHelper'
 import { AutoRow } from '../Row'
 import CurrencyLogo from '../CurrencyLogo'
+import { useActiveWeb3React } from '../../hooks'
 
 const BaseWrapper = styled.div<{ disable?: boolean }>`
   border: 1px solid ${({ theme, disable }) => (disable ? 'transparent' : theme.bg3)};
@@ -44,10 +45,10 @@ export default function CommonBases({
       </AutoRow>
       <AutoRow gap="4px">
         <BaseWrapper
-          onClick={() => !currencyEquals(selectedCurrency, ETHER) && onSelect(ETHER)}
-          disable={selectedCurrency === ETHER}
+          onClick={() => !currencyEquals(selectedCurrency, NATIVE_TOKENS[chainId]) && onSelect(NATIVE_TOKENS[chainId])}
+          disable={selectedCurrency === NATIVE_TOKENS[chainId]}
         >
-          <CurrencyLogo currency={ETHER} style={{ marginRight: 8 }} />
+          <CurrencyLogo currency={NATIVE_TOKENS[chainId]} style={{ marginRight: 8 }} />
           <Text fontWeight={500} fontSize={16}>
             ETH
           </Text>

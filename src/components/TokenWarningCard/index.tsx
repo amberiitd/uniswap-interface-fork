@@ -44,7 +44,7 @@ interface TokenWarningCardProps extends PropsOfExcluding<typeof Wrapper, 'error'
 export default function TokenWarningCard({ token, ...rest }: TokenWarningCardProps) {
   const { chainId } = useActiveWeb3React()
   const defaultTokens = useDefaultTokenList()
-  const isDefault = isDefaultToken(defaultTokens, token)
+  const isDefault = isDefaultToken(defaultTokens, chainId, token)
 
   const tokenSymbol = token?.symbol?.toLowerCase() ?? ''
   const tokenName = token?.name?.toLowerCase() ?? ''
