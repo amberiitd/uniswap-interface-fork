@@ -1,5 +1,4 @@
-import { ChainId, Currency, CurrencyAmount, Token, TokenAmount } from '@uniswap/sdk'
-import { NATIVE_TOKENS, WRAPPED_NATIVE } from '../constants'
+import { ChainId, Currency, CurrencyAmount, Token, TokenAmount, NATIVE_TOKENS, WRAPPED_NATIVE } from '@uniswap/sdk'
 
 export function wrappedCurrency(currency: Currency | undefined, chainId: ChainId | undefined): Token | undefined {
   return chainId && currency === NATIVE_TOKENS[chainId] ? WRAPPED_NATIVE[chainId] : currency instanceof Token ? currency : undefined

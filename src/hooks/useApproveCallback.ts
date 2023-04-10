@@ -1,8 +1,7 @@
 import { MaxUint256 } from '@ethersproject/constants'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Trade, TokenAmount, CurrencyAmount, ChainId } from '@uniswap/sdk'
+import { Trade, TokenAmount, CurrencyAmount, ChainId, NATIVE_TOKENS } from '@uniswap/sdk'
 import { useCallback, useMemo } from 'react'
-import { NATIVE_TOKENS, ROUTER_ADDRESS } from '../constants'
 import { useTokenAllowance } from '../data/Allowances'
 import { getTradeVersion, useV1TradeExchangeAddress } from '../data/V1'
 import { Field } from '../state/swap/actions'
@@ -12,6 +11,7 @@ import { calculateGasMargin } from '../utils'
 import { useTokenContract } from './useContract'
 import { useActiveWeb3React } from './index'
 import { Version } from './useToggledVersion'
+import { ROUTER_ADDRESS } from '../constants'
 
 export enum ApprovalState {
   UNKNOWN,

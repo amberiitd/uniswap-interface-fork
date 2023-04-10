@@ -1,4 +1,4 @@
-import { Currency, JSBI, TokenAmount } from '@uniswap/sdk'
+import { Currency, JSBI, TokenAmount, NATIVE_TOKENS } from '@uniswap/sdk'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Plus } from 'react-feather'
 import { Text } from 'rebass'
@@ -19,7 +19,6 @@ import { currencyId } from '../../utils/currencyId'
 import AppBody from '../AppBody'
 import { Dots } from '../Pool/styleds'
 import { ChainId } from '../../../@uniswap/sdk/dist/constants'
-import { NATIVE_TOKENS } from '../../constants'
 
 enum Fields {
   TOKEN0 = 0,

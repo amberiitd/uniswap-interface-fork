@@ -1,3 +1,4 @@
+import { ChainId } from './constants';
 import { Percent, Trade } from './entities';
 /**
  * Options for producing the arguments to send call to the router.
@@ -21,6 +22,13 @@ export interface TradeOptions {
      * Whether any of the tokens in the path are fee on transfer tokens, which should be handled with special methods
      */
     feeOnTransfer?: boolean;
+}
+export interface TradeOptionsDeadline extends Omit<TradeOptions, 'ttl'> {
+    /**
+     * When the transaction expires.
+     * This is an atlernate to specifying the ttl, for when you do not want to use local time.
+     */
+    deadline: number;
 }
 /**
  * The parameters to use in the call to the Uniswap V2 Router to execute a trade.
@@ -52,5 +60,5 @@ export declare abstract class Router {
      * @param trade to produce call parameters for
      * @param options options for the call parameters
      */
-    static swapCallParameters(trade: Trade, options: TradeOptions): SwapParameters;
+    static swapCallParameters(chainId: ChainId, trade: Trade, options: TradeOptions | TradeOptionsDeadline): SwapParameters;
 }

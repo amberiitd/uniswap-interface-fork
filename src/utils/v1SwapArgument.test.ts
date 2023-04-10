@@ -18,7 +18,7 @@ describe('v1SwapArguments', () => {
   }
 
   it('exact eth to token', () => {
-    const trade = Trade.exactIn(new Route([USDC_WETH], ETHER), CurrencyAmount.ether('100'))
+    const trade = Trade.exactIn(new Route([USDC_WETH], ETHER), CurrencyAmount.native('100', 1))
     const result = v1SwapArguments(trade, 1, {
       recipient: TEST_RECIPIENT_ADDRESS,
       allowedSlippage: new Percent('1', '100'),
@@ -74,7 +74,7 @@ describe('v1SwapArguments', () => {
     expect(result.value).toEqual('0x66')
   })
   it('token to exact eth', () => {
-    const trade = Trade.exactOut(new Route([USDC_WETH], USDC, ETHER), CurrencyAmount.ether('100'))
+    const trade = Trade.exactOut(new Route([USDC_WETH], USDC, ETHER), CurrencyAmount.native('100', 1))
     const result = v1SwapArguments(trade,1, {
       recipient: TEST_RECIPIENT_ADDRESS,
       allowedSlippage: new Percent('1', '100'),

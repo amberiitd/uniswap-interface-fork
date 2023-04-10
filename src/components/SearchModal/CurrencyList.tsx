@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, currencyEquals, ETHER, JSBI, Token } from '@uniswap/sdk'
+import { Currency, CurrencyAmount, currencyEquals, ETHER, JSBI, Token, NATIVE_TOKENS } from '@uniswap/sdk'
 import React, { CSSProperties, memo, useContext, useMemo } from 'react'
 import { FixedSizeList } from 'react-window'
 import { Text } from 'rebass'
@@ -16,7 +16,6 @@ import CurrencyLogo from '../CurrencyLogo'
 import { FadedSpan, MenuItem } from './styleds'
 import Loader from '../Loader'
 import { isDefaultToken } from '../../utils'
-import { NATIVE_TOKENS } from '../../constants'
 import { ChainId } from '../../../@uniswap/sdk/dist'
 
 function currencyKey(currency: Currency, chainId: ChainId): string {

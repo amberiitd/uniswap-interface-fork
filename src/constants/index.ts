@@ -1,5 +1,5 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
-import { ChainId, JSBI, Percent, Token, WETH, Currency } from '@uniswap/sdk'
+import { ChainId, JSBI, Percent, Token, WRAPPED_NATIVE } from '@uniswap/sdk'
 import { TokenInfo, TokenList } from '@uniswap/token-lists/dist/types'
 import { VersionUpgrade } from '@uniswap/token-lists'
 
@@ -10,21 +10,6 @@ export const ROUTER_ADDRESS = '0xcf2bD0a007Dc5727a1A919cfEf9E37bD6C38cA8b'
 // a list of tokens by chain
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]
-}
-
-export const NATIVE_TOKENS: {
-  readonly [chainId in ChainId]: Currency
-} = {
-  80001: {
-    decimals: 18,
-    symbol: 'MATIC',
-    name: 'Matic'
-  },
-  [ChainId.MAINNET]: Currency.ETHER,
-  [ChainId.ROPSTEN]: Currency.ETHER,
-  [ChainId.RINKEBY]: Currency.ETHER,
-  [ChainId.GÖRLI]: Currency.ETHER,
-  [ChainId.KOVAN]: Currency.ETHER
 }
 
 const UNI_V2 = new Token(ChainId.MUMBAI, '0x22fDDde296579FddAeaD280c4Ad4Df2D3B84093f', 18, 'UNI', 'Uniswap')
@@ -39,67 +24,58 @@ export const MKR = new Token(ChainId.MAINNET, '0x9f8F72aA9304c8B593d555F12eF6589
 export const AMPL = new Token(ChainId.MAINNET, '0xD46bA6D942050d489DBd938a2C909A5d5039A161', 9, 'AMPL', 'Ampleforth')
 
 const WRAPPED_TOKEN_ONLY: ChainTokenList = {
-  [ChainId.MAINNET]: [WETH[ChainId.MAINNET]],
-  [ChainId.ROPSTEN]: [WETH[ChainId.ROPSTEN]],
-  [ChainId.RINKEBY]: [WETH[ChainId.RINKEBY]],
-  [ChainId.GÖRLI]: [WETH[ChainId.GÖRLI]],
-  [ChainId.KOVAN]: [WETH[ChainId.KOVAN]],
+  [ChainId.MAINNET]: [WRAPPED_NATIVE[ChainId.MAINNET]],
+  [ChainId.ROPSTEN]: [WRAPPED_NATIVE[ChainId.ROPSTEN]],
+  [ChainId.RINKEBY]: [WRAPPED_NATIVE[ChainId.RINKEBY]],
+  [ChainId.GÖRLI]: [WRAPPED_NATIVE[ChainId.GÖRLI]],
+  [ChainId.KOVAN]: [WRAPPED_NATIVE[ChainId.KOVAN]],
   [ChainId.MUMBAI]: [WMATIC]
-}
-
-export const WRAPPED_NATIVE: { [chainId in ChainId]: Token } = {
-  [ChainId.MAINNET]: WETH[ChainId.MAINNET],
-  [ChainId.ROPSTEN]: WETH[ChainId.ROPSTEN],
-  [ChainId.RINKEBY]: WETH[ChainId.RINKEBY],
-  [ChainId.GÖRLI]: WETH[ChainId.GÖRLI],
-  [ChainId.KOVAN]: WETH[ChainId.KOVAN],
-  [ChainId.MUMBAI]: WMATIC
 }
 
 export const ALL_TOKENS: { [chainId in ChainId]: TokenInfo[] } = {
   [ChainId.MAINNET]: [
     {
       chainId: ChainId.MAINNET,
-      address: WETH[ChainId.MAINNET].address,
-      name: WETH[ChainId.MAINNET].name || '',
-      symbol: WETH[ChainId.MAINNET].symbol || '',
-      decimals: WETH[ChainId.MAINNET].decimals
+      address: WRAPPED_NATIVE[ChainId.MAINNET].address,
+      name: WRAPPED_NATIVE[ChainId.MAINNET].name || '',
+      symbol: WRAPPED_NATIVE[ChainId.MAINNET].symbol || '',
+      decimals: WRAPPED_NATIVE[ChainId.MAINNET].decimals
     }
   ],
   [ChainId.ROPSTEN]: [
     {
       chainId: ChainId.ROPSTEN,
-      address: WETH[ChainId.ROPSTEN].address,
-      name: WETH[ChainId.ROPSTEN].name || '',
-      symbol: WETH[ChainId.ROPSTEN].symbol || '',
-      decimals: WETH[ChainId.ROPSTEN].decimals
+      address: WRAPPED_NATIVE[ChainId.ROPSTEN].address,
+      name: WRAPPED_NATIVE[ChainId.ROPSTEN].name || '',
+      symbol: WRAPPED_NATIVE[ChainId.ROPSTEN].symbol || '',
+      decimals: WRAPPED_NATIVE[ChainId.ROPSTEN].decimals
     }
   ],
   [ChainId.RINKEBY]: [
     {
       chainId: ChainId.RINKEBY,
-      address: WETH[ChainId.RINKEBY].address,
-      name: WETH[ChainId.RINKEBY].name || '',
-      symbol: WETH[ChainId.RINKEBY].symbol || '',
-      decimals: WETH[ChainId.RINKEBY].decimals
+      address: WRAPPED_NATIVE[ChainId.RINKEBY].address,
+      name: WRAPPED_NATIVE[ChainId.RINKEBY].name || '',
+      symbol: WRAPPED_NATIVE[ChainId.RINKEBY].symbol || '',
+      decimals: WRAPPED_NATIVE[ChainId.RINKEBY].decimals
     }
   ],
   [ChainId.GÖRLI]: [
     {
       chainId: ChainId.GÖRLI,
-      address: WETH[ChainId.GÖRLI].address,
-      name: WETH[ChainId.GÖRLI].name || '',
-      symbol: WETH[ChainId.GÖRLI].symbol || '',
-      decimals: WETH[ChainId.GÖRLI].decimals
+      address: WRAPPED_NATIVE[ChainId.GÖRLI].address,
+      name: WRAPPED_NATIVE[ChainId.GÖRLI].name || '',
+      symbol: WRAPPED_NATIVE[ChainId.GÖRLI].symbol || '',
+      decimals: WRAPPED_NATIVE[ChainId.GÖRLI].decimals
     }
   ],
   [ChainId.KOVAN]: [
     {
       chainId: ChainId.KOVAN,
-      address: WETH[ChainId.KOVAN].address,
-      name: WETH[ChainId.KOVAN].name || '',
-      symbol: WETH[ChainId.KOVAN].symbol || '',
-      decimals: WETH[ChainId.KOVAN].decimals
+      address: WRAPPED_NATIVE[ChainId.KOVAN].address,
+      name: WRAPPED_NATIVE[ChainId.KOVAN].name || '',
+      symbol: WRAPPED_NATIVE[ChainId.KOVAN].symbol || '',
+      decimals: WRAPPED_NATIVE[ChainId.KOVAN].decimals
     }
   ],
   [ChainId.MUMBAI]: [
@@ -179,7 +155,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
  */
 export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {
   [ChainId.MAINNET]: {
-    [AMPL.address]: [DAI, WETH[ChainId.MAINNET]]
+    [AMPL.address]: [DAI, WRAPPED_NATIVE[ChainId.MAINNET]]
   }
 }
 

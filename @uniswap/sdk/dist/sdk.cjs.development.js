@@ -374,12 +374,11 @@ function Currency(decimals, symbol, name) {
  */
 
 Currency.ETHER = /*#__PURE__*/new Currency(18, 'ETH', 'Ether');
-var ETHER = Currency.ETHER;
-
 Currency.MATIC = /*#__PURE__*/new Currency(18, 'MATIC', 'Matic');
+var ETHER = Currency.ETHER;
 var MATIC = Currency.MATIC;
 
-var _WETH;
+var _NATIVE_TOKENS, _WRAPPED_NATIVE;
 /**
  * Represents an ERC20 token with a unique address and some metadata.
  */
@@ -442,7 +441,8 @@ function currencyEquals(currencyA, currencyB) {
     return currencyA === currencyB;
   }
 }
-var WETH = (_WETH = {}, _WETH[exports.ChainId.MAINNET] = /*#__PURE__*/new Token(exports.ChainId.MAINNET, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.ROPSTEN] = /*#__PURE__*/new Token(exports.ChainId.ROPSTEN, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.RINKEBY] = /*#__PURE__*/new Token(exports.ChainId.RINKEBY, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.GÖRLI] = /*#__PURE__*/new Token(exports.ChainId.GÖRLI, '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6', 18, 'WETH', 'Wrapped Ether'), _WETH[exports.ChainId.KOVAN] = /*#__PURE__*/new Token(exports.ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether'), _WETH);
+var NATIVE_TOKENS = (_NATIVE_TOKENS = {}, _NATIVE_TOKENS[exports.ChainId.MUMBAI] = Currency.MATIC, _NATIVE_TOKENS[exports.ChainId.MAINNET] = Currency.ETHER, _NATIVE_TOKENS[exports.ChainId.ROPSTEN] = Currency.ETHER, _NATIVE_TOKENS[exports.ChainId.RINKEBY] = Currency.ETHER, _NATIVE_TOKENS[exports.ChainId.GÖRLI] = Currency.ETHER, _NATIVE_TOKENS[exports.ChainId.KOVAN] = Currency.ETHER, _NATIVE_TOKENS);
+var WRAPPED_NATIVE = (_WRAPPED_NATIVE = {}, _WRAPPED_NATIVE[exports.ChainId.MAINNET] = /*#__PURE__*/new Token(exports.ChainId.MAINNET, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', 18, 'WETH', 'Wrapped Ether'), _WRAPPED_NATIVE[exports.ChainId.ROPSTEN] = /*#__PURE__*/new Token(exports.ChainId.ROPSTEN, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WRAPPED_NATIVE[exports.ChainId.RINKEBY] = /*#__PURE__*/new Token(exports.ChainId.RINKEBY, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WRAPPED_NATIVE[exports.ChainId.GÖRLI] = /*#__PURE__*/new Token(exports.ChainId.GÖRLI, '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6', 18, 'WETH', 'Wrapped Ether'), _WRAPPED_NATIVE[exports.ChainId.KOVAN] = /*#__PURE__*/new Token(exports.ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether'), _WRAPPED_NATIVE[exports.ChainId.MUMBAI] = /*#__PURE__*/new Token(exports.ChainId.MUMBAI, '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889', 18, 'WMATIC', 'Wrapped Matic'), _WRAPPED_NATIVE);
 
 var _toSignificantRoundin, _toFixedRounding;
 var Decimal = /*#__PURE__*/toFormat(_Decimal);
@@ -586,8 +586,8 @@ var CurrencyAmount = /*#__PURE__*/function (_Fraction) {
    */
 
 
-  CurrencyAmount.ether = function ether(amount) {
-    return new CurrencyAmount(ETHER, amount);
+  CurrencyAmount["native"] = function native(amount, chainId) {
+    return chainId === exports.ChainId.MUMBAI ? new CurrencyAmount(MATIC, amount) : new CurrencyAmount(ETHER, amount);
   };
 
   var _proto = CurrencyAmount.prototype;
@@ -719,14 +719,14 @@ var Price = /*#__PURE__*/function (_Fraction) {
   } // performs floor division on overflow
   ;
 
-  _proto.quote = function quote(currencyAmount) {
+  _proto.quote = function quote(currencyAmount, chainId) {
     !currencyEquals(currencyAmount.currency, this.baseCurrency) ?  invariant(false, 'TOKEN')  : void 0;
 
     if (this.quoteCurrency instanceof Token) {
       return new TokenAmount(this.quoteCurrency, _Fraction.prototype.multiply.call(this, currencyAmount.raw).quotient);
     }
 
-    return CurrencyAmount.ether(_Fraction.prototype.multiply.call(this, currencyAmount.raw).quotient);
+    return CurrencyAmount["native"](_Fraction.prototype.multiply.call(this, currencyAmount.raw).quotient, chainId);
   };
 
   _proto.toSignificant = function toSignificant(significantDigits, format, rounding) {
@@ -961,9 +961,9 @@ var Route = /*#__PURE__*/function () {
     !pairs.every(function (pair) {
       return pair.chainId === pairs[0].chainId;
     }) ?  invariant(false, 'CHAIN_IDS')  : void 0;
-    !(input instanceof Token && pairs[0].involvesToken(input) || input === ETHER && pairs[0].involvesToken(WETH[pairs[0].chainId])) ?  invariant(false, 'INPUT')  : void 0;
-    !(typeof output === 'undefined' || output instanceof Token && pairs[pairs.length - 1].involvesToken(output) || output === ETHER && pairs[pairs.length - 1].involvesToken(WETH[pairs[0].chainId])) ?  invariant(false, 'OUTPUT')  : void 0;
-    var path = [input instanceof Token ? input : WETH[pairs[0].chainId]];
+    !(input instanceof Token && pairs[0].involvesToken(input) || input === NATIVE_TOKENS[pairs[0].chainId] && pairs[0].involvesToken(WRAPPED_NATIVE[pairs[0].chainId])) ?  invariant(false, 'INPUT')  : void 0;
+    !(typeof output === 'undefined' || output instanceof Token && pairs[pairs.length - 1].involvesToken(output) || output === NATIVE_TOKENS[pairs[0].chainId] && pairs[pairs.length - 1].involvesToken(WRAPPED_NATIVE[pairs[0].chainId])) ?  invariant(false, 'OUTPUT')  : void 0;
+    var path = [input instanceof Token ? input : WRAPPED_NATIVE[pairs[0].chainId]];
 
     for (var _iterator = _createForOfIteratorHelperLoose(pairs.entries()), _step; !(_step = _iterator()).done;) {
       var _step$value = _step.value,
@@ -1091,13 +1091,13 @@ function tradeComparator(a, b) {
 
 function wrappedAmount(currencyAmount, chainId) {
   if (currencyAmount instanceof TokenAmount) return currencyAmount;
-  if (currencyAmount.currency === ETHER) return new TokenAmount(WETH[chainId], currencyAmount.raw);
+  if (currencyAmount.currency === NATIVE_TOKENS[chainId]) return new TokenAmount(WRAPPED_NATIVE[chainId], currencyAmount.raw);
     invariant(false, 'CURRENCY')  ;
 }
 
 function wrappedCurrency(currency, chainId) {
   if (currency instanceof Token) return currency;
-  if (currency === ETHER) return WETH[chainId];
+  if (currency === NATIVE_TOKENS[chainId]) return WRAPPED_NATIVE[chainId];
     invariant(false, 'CURRENCY')  ;
 }
 /**
@@ -1143,8 +1143,8 @@ var Trade = /*#__PURE__*/function () {
 
     this.route = route;
     this.tradeType = tradeType;
-    this.inputAmount = tradeType === exports.TradeType.EXACT_INPUT ? amount : route.input === ETHER ? CurrencyAmount.ether(amounts[0].raw) : amounts[0];
-    this.outputAmount = tradeType === exports.TradeType.EXACT_OUTPUT ? amount : route.output === ETHER ? CurrencyAmount.ether(amounts[amounts.length - 1].raw) : amounts[amounts.length - 1];
+    this.inputAmount = tradeType === exports.TradeType.EXACT_INPUT ? amount : route.input === NATIVE_TOKENS[route.chainId] ? CurrencyAmount["native"](amounts[0].raw, route.chainId) : amounts[0];
+    this.outputAmount = tradeType === exports.TradeType.EXACT_OUTPUT ? amount : route.output === NATIVE_TOKENS[route.chainId] ? CurrencyAmount["native"](amounts[amounts.length - 1].raw, route.chainId) : amounts[amounts.length - 1];
     this.executionPrice = new Price(this.inputAmount.currency, this.outputAmount.currency, this.inputAmount.raw, this.outputAmount.raw);
     this.nextMidPrice = Price.fromRoute(new Route(nextPairs, route.input));
     this.priceImpact = computePriceImpact(route.midPrice, this.inputAmount, this.outputAmount);
@@ -1177,14 +1177,14 @@ var Trade = /*#__PURE__*/function () {
 
   var _proto = Trade.prototype;
 
-  _proto.minimumAmountOut = function minimumAmountOut(slippageTolerance) {
+  _proto.minimumAmountOut = function minimumAmountOut(slippageTolerance, chainId) {
     !!slippageTolerance.lessThan(ZERO) ?  invariant(false, 'SLIPPAGE_TOLERANCE')  : void 0;
 
     if (this.tradeType === exports.TradeType.EXACT_OUTPUT) {
       return this.outputAmount;
     } else {
       var slippageAdjustedAmountOut = new Fraction(ONE).add(slippageTolerance).invert().multiply(this.outputAmount.raw).quotient;
-      return this.outputAmount instanceof TokenAmount ? new TokenAmount(this.outputAmount.token, slippageAdjustedAmountOut) : CurrencyAmount.ether(slippageAdjustedAmountOut);
+      return this.outputAmount instanceof TokenAmount ? new TokenAmount(this.outputAmount.token, slippageAdjustedAmountOut) : CurrencyAmount["native"](slippageAdjustedAmountOut, chainId);
     }
   }
   /**
@@ -1193,14 +1193,14 @@ var Trade = /*#__PURE__*/function () {
    */
   ;
 
-  _proto.maximumAmountIn = function maximumAmountIn(slippageTolerance) {
+  _proto.maximumAmountIn = function maximumAmountIn(slippageTolerance, chainId) {
     !!slippageTolerance.lessThan(ZERO) ?  invariant(false, 'SLIPPAGE_TOLERANCE')  : void 0;
 
     if (this.tradeType === exports.TradeType.EXACT_INPUT) {
       return this.inputAmount;
     } else {
       var slippageAdjustedAmountIn = new Fraction(ONE).add(slippageTolerance).multiply(this.inputAmount.raw).quotient;
-      return this.inputAmount instanceof TokenAmount ? new TokenAmount(this.inputAmount.token, slippageAdjustedAmountIn) : CurrencyAmount.ether(slippageAdjustedAmountIn);
+      return this.inputAmount instanceof TokenAmount ? new TokenAmount(this.inputAmount.token, slippageAdjustedAmountIn) : CurrencyAmount["native"](slippageAdjustedAmountIn, chainId);
     }
   }
   /**
@@ -1391,19 +1391,19 @@ var Router = /*#__PURE__*/function () {
    */
 
 
-  Router.swapCallParameters = function swapCallParameters(trade, options) {
-    var etherIn = trade.inputAmount.currency === ETHER;
-    var etherOut = trade.outputAmount.currency === ETHER; // the router does not support both ether in and out
+  Router.swapCallParameters = function swapCallParameters(chainId, trade, options) {
+    var etherIn = trade.inputAmount.currency === NATIVE_TOKENS[chainId];
+    var etherOut = trade.outputAmount.currency === NATIVE_TOKENS[chainId]; // the router does not support both ether in and out
 
     !!(etherIn && etherOut) ?  invariant(false, 'ETHER_IN_OUT')  : void 0;
-    !(options.ttl > 0) ?  invariant(false, 'TTL')  : void 0;
+    !(!('ttl' in options) || options.ttl > 0) ?  invariant(false, 'TTL')  : void 0;
     var to = validateAndParseAddress(options.recipient);
-    var amountIn = toHex(trade.maximumAmountIn(options.allowedSlippage));
-    var amountOut = toHex(trade.minimumAmountOut(options.allowedSlippage));
+    var amountIn = toHex(trade.maximumAmountIn(options.allowedSlippage, chainId));
+    var amountOut = toHex(trade.minimumAmountOut(options.allowedSlippage, chainId));
     var path = trade.route.path.map(function (token) {
       return token.address;
     });
-    var deadline = "0x" + (Math.floor(new Date().getTime() / 1000) + options.ttl).toString(16);
+    var deadline = 'ttl' in options ? "0x" + (Math.floor(new Date().getTime() / 1000) + options.ttl).toString(16) : "0x" + options.deadline.toString(16);
     var useFeeOnTransfer = Boolean(options.feeOnTransfer);
     var methodName;
     var args;
@@ -1577,14 +1577,15 @@ exports.JSBI = JSBI;
 exports.Currency = Currency;
 exports.CurrencyAmount = CurrencyAmount;
 exports.ETHER = ETHER;
-exports.MATIC = MATIC;
 exports.FACTORY_ADDRESS = FACTORY_ADDRESS;
 exports.Fetcher = Fetcher;
 exports.Fraction = Fraction;
 exports.INIT_CODE_HASH = INIT_CODE_HASH;
 exports.InsufficientInputAmountError = InsufficientInputAmountError;
 exports.InsufficientReservesError = InsufficientReservesError;
+exports.MATIC = MATIC;
 exports.MINIMUM_LIQUIDITY = MINIMUM_LIQUIDITY;
+exports.NATIVE_TOKENS = NATIVE_TOKENS;
 exports.Pair = Pair;
 exports.Percent = Percent;
 exports.Price = Price;
@@ -1593,7 +1594,7 @@ exports.Router = Router;
 exports.Token = Token;
 exports.TokenAmount = TokenAmount;
 exports.Trade = Trade;
-exports.WETH = WETH;
+exports.WRAPPED_NATIVE = WRAPPED_NATIVE;
 exports.currencyEquals = currencyEquals;
 exports.inputOutputComparator = inputOutputComparator;
 exports.tradeComparator = tradeComparator;

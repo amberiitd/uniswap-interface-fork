@@ -12,7 +12,9 @@ import {
   TokenAmount,
   Trade,
   TradeType,
-  ChainId
+  ChainId,
+  NATIVE_TOKENS,
+  WRAPPED_NATIVE
 } from '@uniswap/sdk'
 import { useMemo } from 'react'
 import { useActiveWeb3React } from '../hooks'
@@ -21,7 +23,6 @@ import { useV1FactoryContract } from '../hooks/useContract'
 import { Version } from '../hooks/useToggledVersion'
 import { NEVER_RELOAD, useSingleCallResult, useSingleContractMultipleData } from '../state/multicall/hooks'
 import { useETHBalances, useTokenBalance, useTokenBalances } from '../state/wallet/hooks'
-import { NATIVE_TOKENS, WRAPPED_NATIVE } from '../constants'
 
 export function useV1ExchangeAddress(tokenAddress?: string): string | undefined {
   const contract = useV1FactoryContract()

@@ -1,11 +1,10 @@
-import { Currency, currencyEquals } from '@uniswap/sdk'
+import { Currency, currencyEquals, NATIVE_TOKENS, ChainId, WRAPPED_NATIVE } from '@uniswap/sdk'
 import { useMemo } from 'react'
 import { tryParseAmount } from '../state/swap/hooks'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { useCurrencyBalance } from '../state/wallet/hooks'
 import { useActiveWeb3React } from './index'
 import { useWETHContract } from './useContract'
-import { NATIVE_TOKENS, WRAPPED_NATIVE } from '../constants'
 
 export enum WrapType {
   NOT_APPLICABLE,
@@ -29,7 +28,7 @@ export default function useWrapCallback(
   const wethContract = useWETHContract()
   const balance = useCurrencyBalance(account ?? undefined, inputCurrency)
   // we can always parse the amount typed as the input currency, since wrapping is 1:1
-  const inputAmount = useMemo(() => tryParseAmount(typedValue, inputCurrency), [inputCurrency, typedValue])
+  const inputAmount = useMemo(() => tryParseAmount(chainId as ChainId, typedValue, inputCurrency), [inputCurrency, typedValue])
   const addTransaction = useTransactionAdder()
 
   return useMemo(() => {

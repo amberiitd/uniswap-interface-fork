@@ -1,8 +1,7 @@
 import { MaxUint256 } from '@ethersproject/constants'
-import { CurrencyAmount, SwapParameters, Token, Trade, TradeOptions, TradeType, ChainId } from '@uniswap/sdk'
+import { CurrencyAmount, SwapParameters, Token, Trade, TradeOptions, TradeType, ChainId, NATIVE_TOKENS } from '@uniswap/sdk'
 import { getTradeVersion } from '../data/V1'
 import { Version } from '../hooks/useToggledVersion'
-import { NATIVE_TOKENS } from '../constants'
 
 function toHex(currencyAmount: CurrencyAmount): string {
   return `0x${currencyAmount.raw.toString(16)}`
@@ -28,8 +27,8 @@ export default function v1SwapArguments(trade: Trade, chainId: ChainId, options:
   const inputETH = trade.inputAmount.currency === NATIVE_TOKENS[chainId]
   const outputETH = trade.outputAmount.currency === NATIVE_TOKENS[chainId]
   if (inputETH && outputETH) throw new Error(`${NATIVE_TOKENS[chainId].name} to ${NATIVE_TOKENS[chainId].name}`)
-  const minimumAmountOut = toHex(trade.minimumAmountOut(options.allowedSlippage))
-  const maximumAmountIn = toHex(trade.maximumAmountIn(options.allowedSlippage))
+  const minimumAmountOut = toHex(trade.minimumAmountOut(options.allowedSlippage, chainId))
+  const maximumAmountIn = toHex(trade.maximumAmountIn(options.allowedSlippage, chainId))
   const deadline = deadlineFromNow(options.ttl)
   if (isExactIn) {
     if (inputETH) {

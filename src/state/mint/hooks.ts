@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, JSBI, Pair, Percent, Price, TokenAmount } from '@uniswap/sdk'
+import { Currency, CurrencyAmount, JSBI, Pair, Percent, Price, TokenAmount, ChainId, NATIVE_TOKENS } from '@uniswap/sdk'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { PairState, usePair } from '../../data/Reserves'
@@ -10,7 +10,6 @@ import { AppDispatch, AppState } from '../index'
 import { tryParseAmount } from '../swap/hooks'
 import { useCurrencyBalances } from '../wallet/hooks'
 import { Field, typeInput } from './actions'
-import { NATIVE_TOKENS } from '../../constants'
 
 const ZERO = JSBI.BigInt(0)
 
@@ -67,11 +66,11 @@ export function useDerivedMintInfo(
   }
 
   // amounts
-  const independentAmount: CurrencyAmount | undefined = tryParseAmount(typedValue, currencies[independentField])
+  const independentAmount: CurrencyAmount | undefined = tryParseAmount(chainId as ChainId, typedValue, currencies[independentField])
   const dependentAmount: CurrencyAmount | undefined = useMemo(() => {
     if (noLiquidity) {
       if (otherTypedValue && currencies[dependentField]) {
-        return tryParseAmount(otherTypedValue, currencies[dependentField])
+        return tryParseAmount(chainId as ChainId, otherTypedValue, currencies[dependentField])
       }
       return
     } else if (independentAmount) {
@@ -82,9 +81,9 @@ export function useDerivedMintInfo(
         const dependentCurrency = dependentField === Field.CURRENCY_B ? currencyB : currencyA
         const dependentTokenAmount =
           dependentField === Field.CURRENCY_B
-            ? pair.priceOf(tokenA).quote(wrappedIndependentAmount)
-            : pair.priceOf(tokenB).quote(wrappedIndependentAmount)
-        return  chainId && dependentCurrency === NATIVE_TOKENS[chainId] ? CurrencyAmount.ether(dependentTokenAmount.raw) : dependentTokenAmount
+            ? pair.priceOf(tokenA).quote(wrappedIndependentAmount, chainId as ChainId)
+            : pair.priceOf(tokenB).quote(wrappedIndependentAmount, chainId as ChainId)
+        return  chainId && dependentCurrency === NATIVE_TOKENS[chainId] ? CurrencyAmount.native(dependentTokenAmount.raw, chainId) : dependentTokenAmount
       }
       return
     } else {

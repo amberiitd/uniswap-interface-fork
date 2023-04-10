@@ -24,10 +24,14 @@ export declare class Token extends Currency {
  * Compares two currencies for equality
  */
 export declare function currencyEquals(currencyA: Currency, currencyB: Currency): boolean;
-export declare const WETH: {
+export declare const NATIVE_TOKENS: {
+    readonly [chainId in ChainId]: Currency;
+};
+export declare const WRAPPED_NATIVE: {
     1: Token;
     3: Token;
     4: Token;
     5: Token;
     42: Token;
+    80001: Token;
 };

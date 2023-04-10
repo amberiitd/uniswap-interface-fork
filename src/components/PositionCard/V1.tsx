@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
-import { Token, TokenAmount, WETH } from '@uniswap/sdk'
+import { Token, TokenAmount, WRAPPED_NATIVE } from '@uniswap/sdk'
 
 import { Text } from 'rebass'
 import { AutoColumn } from '../Column'
@@ -10,7 +10,6 @@ import { FixedHeightRow, HoverCard } from './index'
 import DoubleCurrencyLogo from '../DoubleLogo'
 import { useActiveWeb3React } from '../../hooks'
 import { ThemeContext } from 'styled-components'
-import { WRAPPED_NATIVE } from '../../constants'
 
 interface PositionCardProps extends RouteComponentProps<{}> {
   token: Token
