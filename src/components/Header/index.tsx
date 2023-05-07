@@ -126,7 +126,7 @@ const BalanceText = styled(Text)`
   `};
 `
 
-const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
+export const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
   [ChainId.MAINNET]: null,
   [ChainId.RINKEBY]: 'Rinkeby',
   [ChainId.ROPSTEN]: 'Ropsten',
@@ -147,11 +147,8 @@ export default function Header() {
         <HeaderElement>
           <Title href=".">
             <UniIcon>
-              <img src={isDark ? LogoDark : Logo} alt="logo" />
+              <img src={`${process.env.PUBLIC_URL}/images/logo.svg`} width={'100px'} />
             </UniIcon>
-            <TitleText>
-              <img style={{ marginLeft: '4px', marginTop: '4px' }} src={isDark ? WordmarkDark : Wordmark} alt="logo" />
-            </TitleText>
           </Title>
         </HeaderElement>
         <HeaderControls>
@@ -169,9 +166,9 @@ export default function Header() {
             </AccountElement>
           </HeaderElement>
           <HeaderElementWrap>
-            <VersionSwitch />
+            {/* <VersionSwitch /> */}
             <Settings />
-            <Menu />
+            {/* <Menu /> */}
           </HeaderElementWrap>
         </HeaderControls>
       </RowBetween>

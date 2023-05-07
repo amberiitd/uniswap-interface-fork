@@ -15,6 +15,7 @@ type ChainTokenList = {
 const UNI_V2 = new Token(ChainId.MUMBAI, '0x22fDDde296579FddAeaD280c4Ad4Df2D3B84093f', 18, 'UNI', 'Uniswap')
 const WMATIC = new Token(ChainId.MUMBAI, '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889', 18, 'WMATIC', 'Wrapped MATIC')
 const NAZT = new Token(ChainId.MUMBAI, '0xf6998DC58bB5C47fd8c47304dD0C3F60b6CCF7f7', 18, 'NAZT', 'NAZT swap')
+const RGBT = new Token(ChainId.MUMBAI, '0x311846D8cE707d3e510b9d355BE51561C79cA6Ba', 18, 'RGBT', 'RGBT swap')
 
 export const DAI = new Token(ChainId.MAINNET, '0x6B175474E89094C44Da98b954EedeAC495271d0F', 18, 'DAI', 'Dai Stablecoin')
 export const USDC = new Token(ChainId.MAINNET, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', 6, 'USDC', 'USD//C')
@@ -30,6 +31,15 @@ const WRAPPED_TOKEN_ONLY: ChainTokenList = {
   [ChainId.GÖRLI]: [WRAPPED_NATIVE[ChainId.GÖRLI]],
   [ChainId.KOVAN]: [WRAPPED_NATIVE[ChainId.KOVAN]],
   [ChainId.MUMBAI]: [WMATIC]
+}
+
+export const CUSTOM_TOKENS: ChainTokenList = {
+    [ChainId.MAINNET]: [],
+    [ChainId.ROPSTEN]: [],
+    [ChainId.RINKEBY]: [],
+    [ChainId.GÖRLI]: [],
+    [ChainId.KOVAN]: [],
+    [ChainId.MUMBAI]: [NAZT, RGBT]
 }
 
 export const ALL_TOKENS: { [chainId in ChainId]: TokenInfo[] } = {
@@ -93,6 +103,13 @@ export const ALL_TOKENS: { [chainId in ChainId]: TokenInfo[] } = {
       symbol: NAZT.symbol || '',
       decimals: NAZT.decimals
     },
+    {
+        chainId: RGBT.chainId,
+        address: RGBT.address,
+        name: RGBT.name || '',
+        symbol: RGBT.symbol || '',
+        decimals: RGBT.decimals
+      },
     {
         chainId: UNI_V2.chainId,
         address: UNI_V2.address,
@@ -169,7 +186,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   ...WRAPPED_TOKEN_ONLY,
   [ChainId.MAINNET]: [...WRAPPED_TOKEN_ONLY[ChainId.MAINNET], DAI, USDC, USDT],
-  [ChainId.MUMBAI]: [...WRAPPED_TOKEN_ONLY[ChainId.MUMBAI], NAZT]
+  [ChainId.MUMBAI]: [...WRAPPED_TOKEN_ONLY[ChainId.MUMBAI], NAZT, RGBT]
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {

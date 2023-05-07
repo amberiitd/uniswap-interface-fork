@@ -16,6 +16,9 @@ import ListsUpdater from './state/lists/updater'
 import UserUpdater from './state/user/updater'
 import MulticallUpdater from './state/multicall/updater'
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
+import 'bootstrap/dist/js/bootstrap';
+import 'bootstrap/dist/css/bootstrap.css'
+import './index.css'
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
