@@ -26,6 +26,7 @@ var _SOLIDITY_TYPE_MAXIMA;
   ChainId[ChainId["G\xD6RLI"] = 5] = "G\xD6RLI";
   ChainId[ChainId["KOVAN"] = 42] = "KOVAN";
   ChainId[ChainId["MUMBAI"] = 80001] = "MUMBAI";
+  ChainId[ChainId["FILECOIN"] = 3141] = "FILECOIN";
 })(exports.ChainId || (exports.ChainId = {}));
 
 (function (TradeType) {
@@ -39,8 +40,8 @@ var _SOLIDITY_TYPE_MAXIMA;
   Rounding[Rounding["ROUND_UP"] = 2] = "ROUND_UP";
 })(exports.Rounding || (exports.Rounding = {}));
 
-var FACTORY_ADDRESS = '0xf4c5BC0f431d979DFa717bFB03d96Ccf6c13C273';
-var INIT_CODE_HASH = '0xbf7585cde4f408809b6c163843c70455db804dcbba556f99313c4ab4ce8c6346';
+var FACTORY_ADDRESS = '0x575A9E3756EFc55D61810958F2555939796751a5';
+var INIT_CODE_HASH = '0x30db24450a66a25c2dd28c2ff17d17e7c447a7be4c2a154b94f43777e1d18262';
 var MINIMUM_LIQUIDITY = /*#__PURE__*/JSBI.BigInt(1000); // exports for internal consumption
 
 var ZERO = /*#__PURE__*/JSBI.BigInt(0);
@@ -375,6 +376,7 @@ function Currency(decimals, symbol, name) {
 
 Currency.ETHER = /*#__PURE__*/new Currency(18, 'ETH', 'Ether');
 Currency.MATIC = /*#__PURE__*/new Currency(18, 'MATIC', 'Matic');
+Currency.TFIL = /*#__PURE__*/new Currency(18, 'TFIL', 'Tfil');
 var ETHER = Currency.ETHER;
 var MATIC = Currency.MATIC;
 
@@ -441,8 +443,8 @@ function currencyEquals(currencyA, currencyB) {
     return currencyA === currencyB;
   }
 }
-var NATIVE_TOKENS = (_NATIVE_TOKENS = {}, _NATIVE_TOKENS[exports.ChainId.MUMBAI] = Currency.MATIC, _NATIVE_TOKENS[exports.ChainId.MAINNET] = Currency.ETHER, _NATIVE_TOKENS[exports.ChainId.ROPSTEN] = Currency.ETHER, _NATIVE_TOKENS[exports.ChainId.RINKEBY] = Currency.ETHER, _NATIVE_TOKENS[exports.ChainId.GÖRLI] = Currency.ETHER, _NATIVE_TOKENS[exports.ChainId.KOVAN] = Currency.ETHER, _NATIVE_TOKENS);
-var WRAPPED_NATIVE = (_WRAPPED_NATIVE = {}, _WRAPPED_NATIVE[exports.ChainId.MAINNET] = /*#__PURE__*/new Token(exports.ChainId.MAINNET, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', 18, 'WETH', 'Wrapped Ether'), _WRAPPED_NATIVE[exports.ChainId.ROPSTEN] = /*#__PURE__*/new Token(exports.ChainId.ROPSTEN, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WRAPPED_NATIVE[exports.ChainId.RINKEBY] = /*#__PURE__*/new Token(exports.ChainId.RINKEBY, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WRAPPED_NATIVE[exports.ChainId.GÖRLI] = /*#__PURE__*/new Token(exports.ChainId.GÖRLI, '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6', 18, 'WETH', 'Wrapped Ether'), _WRAPPED_NATIVE[exports.ChainId.KOVAN] = /*#__PURE__*/new Token(exports.ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether'), _WRAPPED_NATIVE[exports.ChainId.MUMBAI] = /*#__PURE__*/new Token(exports.ChainId.MUMBAI, '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889', 18, 'WMATIC', 'Wrapped Matic'), _WRAPPED_NATIVE);
+var NATIVE_TOKENS = (_NATIVE_TOKENS = {}, _NATIVE_TOKENS[exports.ChainId.MUMBAI] = Currency.MATIC, _NATIVE_TOKENS[exports.ChainId.FILECOIN] = Currency.TFIL, _NATIVE_TOKENS[exports.ChainId.MAINNET] = Currency.ETHER, _NATIVE_TOKENS[exports.ChainId.ROPSTEN] = Currency.ETHER, _NATIVE_TOKENS[exports.ChainId.RINKEBY] = Currency.ETHER, _NATIVE_TOKENS[exports.ChainId.GÖRLI] = Currency.ETHER, _NATIVE_TOKENS[exports.ChainId.KOVAN] = Currency.ETHER, _NATIVE_TOKENS);
+var WRAPPED_NATIVE = (_WRAPPED_NATIVE = {}, _WRAPPED_NATIVE[exports.ChainId.MAINNET] = /*#__PURE__*/new Token(exports.ChainId.MAINNET, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', 18, 'WETH', 'Wrapped Ether'), _WRAPPED_NATIVE[exports.ChainId.ROPSTEN] = /*#__PURE__*/new Token(exports.ChainId.ROPSTEN, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WRAPPED_NATIVE[exports.ChainId.RINKEBY] = /*#__PURE__*/new Token(exports.ChainId.RINKEBY, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WRAPPED_NATIVE[exports.ChainId.GÖRLI] = /*#__PURE__*/new Token(exports.ChainId.GÖRLI, '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6', 18, 'WETH', 'Wrapped Ether'), _WRAPPED_NATIVE[exports.ChainId.KOVAN] = /*#__PURE__*/new Token(exports.ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether'), _WRAPPED_NATIVE[exports.ChainId.MUMBAI] = /*#__PURE__*/new Token(exports.ChainId.MUMBAI, '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889', 18, 'WMATIC', 'Wrapped Matic'), _WRAPPED_NATIVE[exports.ChainId.FILECOIN] = /*#__PURE__*/new Token(exports.ChainId.FILECOIN, '0x87e940bF5c8FC26ad9F80985D23176D21646423E', 18, 'WTFIL', 'Wrapped FTIL'), _WRAPPED_NATIVE);
 
 var _toSignificantRoundin, _toFixedRounding;
 var Decimal = /*#__PURE__*/toFormat(_Decimal);

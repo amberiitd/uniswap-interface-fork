@@ -20,6 +20,7 @@ import Menu from '../Menu'
 import Row, { RowBetween } from '../Row'
 import Web3Status from '../Web3Status'
 import VersionSwitch from './VersionSwitch'
+import { TOKEN_LIST_BY_CHAIN_ID } from '../../constants'
 
 const HeaderFrame = styled.div`
   display: flex;
@@ -132,7 +133,8 @@ export const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
   [ChainId.ROPSTEN]: 'Ropsten',
   [ChainId.GÖRLI]: 'Görli',
   [ChainId.KOVAN]: 'Kovan',
-  [ChainId.MUMBAI]: 'Mumbai'
+  [ChainId.MUMBAI]: 'Mumbai',
+  [ChainId.FILECOIN]: 'Filecoin - Hyperspace testnet'
 }
 
 export default function Header() {
@@ -159,7 +161,7 @@ export default function Header() {
             <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
               {account && userEthBalance ? (
                 <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                  {userEthBalance?.toSignificant(4)} ETH
+                  {userEthBalance?.toSignificant(4)} {TOKEN_LIST_BY_CHAIN_ID[chainId].name}
                 </BalanceText>
               ) : null}
               <Web3Status />

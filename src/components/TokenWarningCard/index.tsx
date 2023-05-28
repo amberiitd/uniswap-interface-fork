@@ -15,6 +15,7 @@ import { AutoColumn } from '../Column'
 import { AlertTriangle } from 'react-feather'
 import { ButtonError } from '../Button'
 import { useTokenWarningDismissal } from '../../state/user/hooks'
+import { BLOCK_EXPLORER_NAME } from '../AccountDetails'
 
 const Wrapper = styled.div<{ error: boolean }>`
   background: ${({ theme }) => transparentize(0.6, theme.white)};
@@ -79,7 +80,7 @@ export default function TokenWarningCard({ token, ...rest }: TokenWarningCardPro
               : token.name || token.symbol}
           </TYPE.main>
           <ExternalLink style={{ fontWeight: 400 }} href={getEtherscanLink(chainId, token.address, 'token')}>
-            <TYPE.blue> (View on Etherscan)</TYPE.blue>
+            <TYPE.blue> (View on ${BLOCK_EXPLORER_NAME[chainId] || 'Etherscan'})</TYPE.blue>
           </ExternalLink>
         </AutoColumn>
       </AutoRow>
@@ -104,7 +105,7 @@ export function TokenWarningCards({ currencies }: { currencies: { [field in Fiel
           and tokens that claim to represent projects that do not have a token.
         </TYPE.body>
         <TYPE.body color={'red2'}>
-          Similar to Etherscan, this site can load arbitrary tokens via token addresses. Please do your own research
+          Similar to ${BLOCK_EXPLORER_NAME[chainId] || 'Etherscan'}, this site can load arbitrary tokens via token addresses. Please do your own research
           before interacting with any ERC20 token.
         </TYPE.body>
         {Object.keys(currencies).map(field => {

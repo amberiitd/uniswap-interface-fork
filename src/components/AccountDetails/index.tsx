@@ -218,6 +218,10 @@ interface AccountDetailsProps {
   openOptions: () => void
 }
 
+export const BLOCK_EXPLORER_NAME: { readonly [key: number]: string} = {
+    3141: 'Filfox'
+}
+
 export default function AccountDetails({
   toggleWalletModal,
   pendingTransactions,
@@ -358,7 +362,7 @@ export default function AccountDetails({
                           href={getEtherscanLink(chainId, ENSName, 'address')}
                         >
                           <LinkIcon size={16} />
-                          <span style={{ marginLeft: '4px' }}>View on Etherscan</span>
+                          <span style={{ marginLeft: '4px' }}>View on ${BLOCK_EXPLORER_NAME[chainId] || 'Etherscan'}</span>
                         </AddressLink>
                       </div>
                     </AccountControl>
@@ -376,7 +380,7 @@ export default function AccountDetails({
                           href={getEtherscanLink(chainId, account, 'address')}
                         >
                           <LinkIcon size={16} />
-                          <span style={{ marginLeft: '4px' }}>View on Etherscan</span>
+                          <span style={{ marginLeft: '4px' }}>View on ${BLOCK_EXPLORER_NAME[chainId] || 'Etherscan'}</span>
                         </AddressLink>
                       </div>
                     </AccountControl>

@@ -5,7 +5,7 @@ import { VersionUpgrade } from '@uniswap/token-lists'
 
 import { fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
 
-export const ROUTER_ADDRESS = '0xcf2bD0a007Dc5727a1A919cfEf9E37bD6C38cA8b'
+export const ROUTER_ADDRESS = '0x5d1f7e7f340174F1466898B519f321Df248A2053'
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -16,6 +16,7 @@ const UNI_V2 = new Token(ChainId.MUMBAI, '0x22fDDde296579FddAeaD280c4Ad4Df2D3B84
 const WMATIC = new Token(ChainId.MUMBAI, '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889', 18, 'WMATIC', 'Wrapped MATIC')
 const NAZT = new Token(ChainId.MUMBAI, '0xf6998DC58bB5C47fd8c47304dD0C3F60b6CCF7f7', 18, 'NAZT', 'NAZT swap')
 const RGBT = new Token(ChainId.MUMBAI, '0x311846D8cE707d3e510b9d355BE51561C79cA6Ba', 18, 'RGBT', 'RGBT swap')
+const RGBT_FIL = new Token(ChainId.FILECOIN, '0xc6938De481841342D0197D38e90F7AfF476E15eb', 18, 'RGBT', 'RGBT swap')
 
 export const DAI = new Token(ChainId.MAINNET, '0x6B175474E89094C44Da98b954EedeAC495271d0F', 18, 'DAI', 'Dai Stablecoin')
 export const USDC = new Token(ChainId.MAINNET, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', 6, 'USDC', 'USD//C')
@@ -30,16 +31,18 @@ const WRAPPED_TOKEN_ONLY: ChainTokenList = {
   [ChainId.RINKEBY]: [WRAPPED_NATIVE[ChainId.RINKEBY]],
   [ChainId.GÖRLI]: [WRAPPED_NATIVE[ChainId.GÖRLI]],
   [ChainId.KOVAN]: [WRAPPED_NATIVE[ChainId.KOVAN]],
-  [ChainId.MUMBAI]: [WMATIC]
+  [ChainId.MUMBAI]: [WMATIC],
+  [ChainId.FILECOIN]: [WRAPPED_NATIVE[ChainId.FILECOIN]]
 }
 
 export const CUSTOM_TOKENS: ChainTokenList = {
-    [ChainId.MAINNET]: [],
-    [ChainId.ROPSTEN]: [],
-    [ChainId.RINKEBY]: [],
-    [ChainId.GÖRLI]: [],
-    [ChainId.KOVAN]: [],
-    [ChainId.MUMBAI]: [NAZT, RGBT]
+  [ChainId.MAINNET]: [],
+  [ChainId.ROPSTEN]: [],
+  [ChainId.RINKEBY]: [],
+  [ChainId.GÖRLI]: [],
+  [ChainId.KOVAN]: [],
+  [ChainId.MUMBAI]: [NAZT, RGBT],
+  [ChainId.FILECOIN]: []
 }
 
 export const ALL_TOKENS: { [chainId in ChainId]: TokenInfo[] } = {
@@ -104,19 +107,35 @@ export const ALL_TOKENS: { [chainId in ChainId]: TokenInfo[] } = {
       decimals: NAZT.decimals
     },
     {
-        chainId: RGBT.chainId,
-        address: RGBT.address,
-        name: RGBT.name || '',
-        symbol: RGBT.symbol || '',
-        decimals: RGBT.decimals
-      },
+      chainId: RGBT.chainId,
+      address: RGBT.address,
+      name: RGBT.name || '',
+      symbol: RGBT.symbol || '',
+      decimals: RGBT.decimals
+    },
     {
-        chainId: UNI_V2.chainId,
-        address: UNI_V2.address,
-        name: UNI_V2.name || '',
-        symbol: UNI_V2.symbol || '',
-        decimals: UNI_V2.decimals
-      }
+      chainId: UNI_V2.chainId,
+      address: UNI_V2.address,
+      name: UNI_V2.name || '',
+      symbol: UNI_V2.symbol || '',
+      decimals: UNI_V2.decimals
+    }
+  ],
+  [ChainId.FILECOIN]: [
+    {
+      chainId: ChainId.FILECOIN,
+      address: WRAPPED_NATIVE[ChainId.FILECOIN].address,
+      name: WRAPPED_NATIVE[ChainId.FILECOIN].name || '',
+      symbol: WRAPPED_NATIVE[ChainId.FILECOIN].symbol || '',
+      decimals: WRAPPED_NATIVE[ChainId.FILECOIN].decimals
+    },
+    {
+      chainId: RGBT_FIL.chainId,
+      address: RGBT_FIL.address,
+      name: RGBT_FIL.name || '',
+      symbol: RGBT_FIL.symbol || '',
+      decimals: RGBT_FIL.decimals
+    }
   ]
 }
 
@@ -153,10 +172,16 @@ export const TOKEN_LIST_BY_CHAIN_ID: { [key: number]: TokenList } = {
     tokens: ALL_TOKENS[42]
   },
   80001: {
-    name: 'ETHER',
+    name: 'MATIC',
     timestamp: initTime,
     version: { major: VersionUpgrade.MAJOR, minor: VersionUpgrade.MINOR, patch: VersionUpgrade.PATCH },
     tokens: ALL_TOKENS[80001]
+  },
+  3141: {
+    name: 'TFIL',
+    timestamp: initTime,
+    version: { major: VersionUpgrade.MAJOR, minor: VersionUpgrade.MINOR, patch: VersionUpgrade.PATCH },
+    tokens: ALL_TOKENS[3141]
   }
 }
 

@@ -5,6 +5,7 @@ import { useTransactionAdder } from '../state/transactions/hooks'
 import { useCurrencyBalance } from '../state/wallet/hooks'
 import { useActiveWeb3React } from './index'
 import { useWETHContract } from './useContract'
+import { TOKEN_LIST_BY_CHAIN_ID } from '../constants'
 
 export enum WrapType {
   NOT_APPLICABLE,
@@ -44,7 +45,7 @@ export default function useWrapCallback(
             ? async () => {
                 try {
                   const txReceipt = await wethContract.deposit({ value: `0x${inputAmount.raw.toString(16)}` })
-                  addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} ETH to WETH` })
+                  addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} ${TOKEN_LIST_BY_CHAIN_ID[chainId].name} to ${WRAPPED_NATIVE[chainId].name}` })
                 } catch (error) {
                   console.error('Could not deposit', error)
                 }
