@@ -34,6 +34,12 @@ const StyledEthereumLogo = styled.img<{ size: string }>`
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.075);
   border-radius: 24px;
 `
+const CUSTOM_LOGO_URI: { [key: string]: string } = {
+  TEVMOS: `${process.env.PUBLIC_URL}/images/evmos.svg`,
+  WTEVMOS: 'https://icons.llamao.fi/icons/chains/rsz_evmos.jpg',
+  RGBT: `${process.env.PUBLIC_URL}/images/rgbToken.png`,
+  NAZT: `${process.env.PUBLIC_URL}/images/nazT.png`
+}
 
 export default function CurrencyLogo({
   currency,
@@ -50,6 +56,23 @@ export default function CurrencyLogo({
     return <StyledEthereumLogo src={EthereumLogo} size={size} {...rest} />
   }
 
+  if (currency === Currency.TEVMOS) {
+    return (
+      <Image
+        {...rest}
+        alt={`${currency.name} Logo`}
+        src={CUSTOM_LOGO_URI[currency.symbol]}
+        size={size}
+        onError={() => {
+          if (currency instanceof Token) {
+            BAD_URIS[CUSTOM_LOGO_URI[currency.symbol]] = true
+          }
+          refresh(i => i + 1)
+        }}
+      />
+    )
+  }
+
   if (currency instanceof Token) {
     let uri: string | undefined
 
@@ -59,6 +82,7 @@ export default function CurrencyLogo({
       }
     }
 
+    uri = uri || CUSTOM_LOGO_URI[currency.symbol]
     if (!uri) {
       const defaultUri = getTokenLogoURL(currency.address)
       if (!BAD_URIS[defaultUri]) {

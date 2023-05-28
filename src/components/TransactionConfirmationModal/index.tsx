@@ -10,6 +10,7 @@ import { AlertTriangle, ArrowUpCircle } from 'react-feather'
 import { ButtonPrimary } from '../Button'
 import { AutoColumn, ColumnCenter } from '../Column'
 import Circle from '../../assets/images/blue-loader.svg'
+import { BLOCK_EXPLORER_NAME } from '../AccountDetails'
 
 import { getEtherscanLink } from '../../utils'
 import { useActiveWeb3React } from '../../hooks'
@@ -91,9 +92,9 @@ function TransactionSubmittedContent({
             Transaction Submitted
           </Text>
 
-          <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')}>
+          <ExternalLink href={getEtherscanLink(chainId, hash as string, 'transaction')}>
             <Text fontWeight={500} fontSize={14} color={theme.primary1}>
-              View on Etherscan
+            {`View on ${BLOCK_EXPLORER_NAME[chainId] || 'Etherscan'}`}
             </Text>
           </ExternalLink>
           <ButtonPrimary onClick={onDismiss} style={{ margin: '20px 0 0 0' }}>

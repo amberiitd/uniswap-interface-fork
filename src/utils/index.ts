@@ -24,7 +24,8 @@ const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   5: 'goerli.',
   42: 'kovan.',
   80001: 'matic.',
-  3141: 'filecoin'
+  3141: 'filecoin',
+  9000: 'escan'
 }
 
 export function getEtherscanLink(chainId: ChainId, data: string, type: 'transaction' | 'token' | 'address'): string {
@@ -33,6 +34,8 @@ export function getEtherscanLink(chainId: ChainId, data: string, type: 'transact
       ? 'https://mumbai.polygonscan.com'
       : chainId === ChainId.FILECOIN
       ? 'https://hyperspace.filfox.info/en'
+      : chainId === ChainId.EVMOS
+      ? 'https://testnet.escan.live'
       : `https://${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[1]}etherscan.io`
 
   switch (type) {

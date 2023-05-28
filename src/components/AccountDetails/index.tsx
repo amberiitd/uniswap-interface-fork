@@ -219,7 +219,8 @@ interface AccountDetailsProps {
 }
 
 export const BLOCK_EXPLORER_NAME: { readonly [key: number]: string} = {
-    3141: 'Filfox'
+    3141: 'Filfox',
+    9000: 'Evmos'
 }
 
 export default function AccountDetails({
@@ -362,7 +363,7 @@ export default function AccountDetails({
                           href={getEtherscanLink(chainId, ENSName, 'address')}
                         >
                           <LinkIcon size={16} />
-                          <span style={{ marginLeft: '4px' }}>View on ${BLOCK_EXPLORER_NAME[chainId] || 'Etherscan'}</span>
+                          <span style={{ marginLeft: '4px' }}>{`View on ${BLOCK_EXPLORER_NAME[chainId] || 'Etherscan'}`}</span>
                         </AddressLink>
                       </div>
                     </AccountControl>
@@ -380,7 +381,7 @@ export default function AccountDetails({
                           href={getEtherscanLink(chainId, account, 'address')}
                         >
                           <LinkIcon size={16} />
-                          <span style={{ marginLeft: '4px' }}>View on ${BLOCK_EXPLORER_NAME[chainId] || 'Etherscan'}</span>
+                          <span style={{ marginLeft: '4px' }}>{`View on ${BLOCK_EXPLORER_NAME[chainId] || 'Etherscan'}`}</span>
                         </AddressLink>
                       </div>
                     </AccountControl>

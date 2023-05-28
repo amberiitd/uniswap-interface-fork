@@ -5,7 +5,7 @@ import { VersionUpgrade } from '@uniswap/token-lists'
 
 import { fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
 
-export const ROUTER_ADDRESS = '0x5d1f7e7f340174F1466898B519f321Df248A2053'
+export const ROUTER_ADDRESS = '0x4a7e9465C9BcB022BCb75e533B369F2D8408B5A3'
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -14,8 +14,8 @@ type ChainTokenList = {
 
 const UNI_V2 = new Token(ChainId.MUMBAI, '0x22fDDde296579FddAeaD280c4Ad4Df2D3B84093f', 18, 'UNI', 'Uniswap')
 const WMATIC = new Token(ChainId.MUMBAI, '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889', 18, 'WMATIC', 'Wrapped MATIC')
-const NAZT = new Token(ChainId.MUMBAI, '0xf6998DC58bB5C47fd8c47304dD0C3F60b6CCF7f7', 18, 'NAZT', 'NAZT swap')
-const RGBT = new Token(ChainId.MUMBAI, '0x311846D8cE707d3e510b9d355BE51561C79cA6Ba', 18, 'RGBT', 'RGBT swap')
+const NAZT = new Token(ChainId.EVMOS, '0x0e9dF147be69EfA819d5d3C6859B3b4d34a7CbA0', 18, 'NAZT', 'NAZT swap')
+const RGBT = new Token(ChainId.EVMOS, '0x3352bDCbdC445aBc5bEBbbec44745968fC038AeC', 18, 'RGBT', 'RGBT swap')
 const RGBT_FIL = new Token(ChainId.FILECOIN, '0xc6938De481841342D0197D38e90F7AfF476E15eb', 18, 'RGBT', 'RGBT swap')
 
 export const DAI = new Token(ChainId.MAINNET, '0x6B175474E89094C44Da98b954EedeAC495271d0F', 18, 'DAI', 'Dai Stablecoin')
@@ -32,7 +32,8 @@ const WRAPPED_TOKEN_ONLY: ChainTokenList = {
   [ChainId.GÖRLI]: [WRAPPED_NATIVE[ChainId.GÖRLI]],
   [ChainId.KOVAN]: [WRAPPED_NATIVE[ChainId.KOVAN]],
   [ChainId.MUMBAI]: [WMATIC],
-  [ChainId.FILECOIN]: [WRAPPED_NATIVE[ChainId.FILECOIN]]
+  [ChainId.FILECOIN]: [WRAPPED_NATIVE[ChainId.FILECOIN]],
+  [ChainId.EVMOS]: [WRAPPED_NATIVE[ChainId.EVMOS]]
 }
 
 export const CUSTOM_TOKENS: ChainTokenList = {
@@ -42,7 +43,8 @@ export const CUSTOM_TOKENS: ChainTokenList = {
   [ChainId.GÖRLI]: [],
   [ChainId.KOVAN]: [],
   [ChainId.MUMBAI]: [NAZT, RGBT],
-  [ChainId.FILECOIN]: []
+  [ChainId.FILECOIN]: [],
+  [ChainId.EVMOS]: [NAZT, RGBT]
 }
 
 export const ALL_TOKENS: { [chainId in ChainId]: TokenInfo[] } = {
@@ -136,6 +138,29 @@ export const ALL_TOKENS: { [chainId in ChainId]: TokenInfo[] } = {
       symbol: RGBT_FIL.symbol || '',
       decimals: RGBT_FIL.decimals
     }
+  ],
+  [ChainId.EVMOS]: [
+    {
+      chainId: ChainId.EVMOS,
+      address: WRAPPED_NATIVE[ChainId.EVMOS].address,
+      name: WRAPPED_NATIVE[ChainId.EVMOS].name || '',
+      symbol: WRAPPED_NATIVE[ChainId.EVMOS].symbol || '',
+      decimals: WRAPPED_NATIVE[ChainId.EVMOS].decimals
+    },
+    {
+      chainId: NAZT.chainId,
+      address: NAZT.address,
+      name: NAZT.name || '',
+      symbol: NAZT.symbol || '',
+      decimals: NAZT.decimals
+    },
+    {
+      chainId: RGBT.chainId,
+      address: RGBT.address,
+      name: RGBT.name || '',
+      symbol: RGBT.symbol || '',
+      decimals: RGBT.decimals
+    }
   ]
 }
 
@@ -182,6 +207,12 @@ export const TOKEN_LIST_BY_CHAIN_ID: { [key: number]: TokenList } = {
     timestamp: initTime,
     version: { major: VersionUpgrade.MAJOR, minor: VersionUpgrade.MINOR, patch: VersionUpgrade.PATCH },
     tokens: ALL_TOKENS[3141]
+  },
+  9000: {
+    name: 'TEVMOS',
+    timestamp: initTime,
+    version: { major: VersionUpgrade.MAJOR, minor: VersionUpgrade.MINOR, patch: VersionUpgrade.PATCH },
+    tokens: ALL_TOKENS[9000]
   }
 }
 
@@ -238,15 +269,15 @@ export interface WalletInfo {
 }
 
 export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
-  INJECTED: {
-    connector: injected,
-    name: 'Injected',
-    iconName: 'arrow-right.svg',
-    description: 'Injected web3 provider.',
-    href: null,
-    color: '#010101',
-    primary: true
-  },
+//   INJECTED: {
+//     connector: injected,
+//     name: 'Injected',
+//     iconName: 'arrow-right.svg',
+//     description: 'Injected web3 provider.',
+//     href: null,
+//     color: '#010101',
+//     primary: true
+//   },
   METAMASK: {
     connector: injected,
     name: 'MetaMask',
@@ -255,50 +286,50 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
     href: null,
     color: '#E8831D'
   },
-  WALLET_CONNECT: {
-    connector: walletconnect,
-    name: 'WalletConnect',
-    iconName: 'walletConnectIcon.svg',
-    description: 'Connect to Trust Wallet, Rainbow Wallet and more...',
-    href: null,
-    color: '#4196FC',
-    mobile: true
-  },
-  WALLET_LINK: {
-    connector: walletlink,
-    name: 'Coinbase Wallet',
-    iconName: 'coinbaseWalletIcon.svg',
-    description: 'Use Coinbase Wallet app on mobile device',
-    href: null,
-    color: '#315CF5'
-  },
-  COINBASE_LINK: {
-    name: 'Open in Coinbase Wallet',
-    iconName: 'coinbaseWalletIcon.svg',
-    description: 'Open in Coinbase Wallet app.',
-    href: 'https://go.cb-w.com/mtUDhEZPy1',
-    color: '#315CF5',
-    mobile: true,
-    mobileOnly: true
-  },
-  FORTMATIC: {
-    connector: fortmatic,
-    name: 'Fortmatic',
-    iconName: 'fortmaticIcon.png',
-    description: 'Login using Fortmatic hosted wallet',
-    href: null,
-    color: '#6748FF',
-    mobile: true
-  },
-  Portis: {
-    connector: portis,
-    name: 'Portis',
-    iconName: 'portisIcon.png',
-    description: 'Login using Portis hosted wallet',
-    href: null,
-    color: '#4A6C9B',
-    mobile: true
-  }
+//   WALLET_CONNECT: {
+//     connector: walletconnect,
+//     name: 'WalletConnect',
+//     iconName: 'walletConnectIcon.svg',
+//     description: 'Connect to Trust Wallet, Rainbow Wallet and more...',
+//     href: null,
+//     color: '#4196FC',
+//     mobile: true
+//   },
+//   WALLET_LINK: {
+//     connector: walletlink,
+//     name: 'Coinbase Wallet',
+//     iconName: 'coinbaseWalletIcon.svg',
+//     description: 'Use Coinbase Wallet app on mobile device',
+//     href: null,
+//     color: '#315CF5'
+//   },
+//   COINBASE_LINK: {
+//     name: 'Open in Coinbase Wallet',
+//     iconName: 'coinbaseWalletIcon.svg',
+//     description: 'Open in Coinbase Wallet app.',
+//     href: 'https://go.cb-w.com/mtUDhEZPy1',
+//     color: '#315CF5',
+//     mobile: true,
+//     mobileOnly: true
+//   },
+//   FORTMATIC: {
+//     connector: fortmatic,
+//     name: 'Fortmatic',
+//     iconName: 'fortmaticIcon.png',
+//     description: 'Login using Fortmatic hosted wallet',
+//     href: null,
+//     color: '#6748FF',
+//     mobile: true
+//   },
+//   Portis: {
+//     connector: portis,
+//     name: 'Portis',
+//     iconName: 'portisIcon.png',
+//     description: 'Login using Portis hosted wallet',
+//     href: null,
+//     color: '#4A6C9B',
+//     mobile: true
+//   }
 }
 
 export const NetworkContextName = 'NETWORK'

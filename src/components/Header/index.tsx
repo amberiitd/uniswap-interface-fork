@@ -134,7 +134,8 @@ export const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
   [ChainId.GÖRLI]: 'Görli',
   [ChainId.KOVAN]: 'Kovan',
   [ChainId.MUMBAI]: 'Mumbai',
-  [ChainId.FILECOIN]: 'Filecoin - Hyperspace testnet'
+  [ChainId.FILECOIN]: 'Filecoin - Hyperspace testnet',
+  [ChainId.EVMOS]: 'Evmos Testnet'
 }
 
 export default function Header() {
@@ -149,7 +150,7 @@ export default function Header() {
         <HeaderElement>
           <Title href=".">
             <UniIcon>
-              <img src={`${process.env.PUBLIC_URL}/images/logo.svg`} width={'100px'} />
+              <img src={`${process.env.PUBLIC_URL}/images/evswap.png`} width={'50px'} />
             </UniIcon>
           </Title>
         </HeaderElement>
