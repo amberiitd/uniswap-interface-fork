@@ -7,7 +7,8 @@ export declare enum ChainId {
     GÖRLI = 5,
     KOVAN = 42,
     MUMBAI = 80001,
-    FILECOIN = 3141
+    FILECOIN = 3141,
+    EVMOS = 9000
 }
 export declare enum TradeType {
     EXACT_INPUT = 0,
@@ -18,8 +19,8 @@ export declare enum Rounding {
     ROUND_HALF_UP = 1,
     ROUND_UP = 2
 }
-export declare const FACTORY_ADDRESS = "0x575A9E3756EFc55D61810958F2555939796751a5";
-export declare const INIT_CODE_HASH = "0x30db24450a66a25c2dd28c2ff17d17e7c447a7be4c2a154b94f43777e1d18262";
+export declare const FACTORY_ADDRESS = "0xf440030817F7aB86C916A146E281b71c72B01d66";
+export declare const INIT_CODE_HASH = "0x5a4139e61f2a64b39c3c87c6e957c2d76a900e7472833f3713c031d3ad6334c5";
 export declare const MINIMUM_LIQUIDITY: JSBI;
 export declare const ZERO: JSBI;
 export declare const ONE: JSBI;

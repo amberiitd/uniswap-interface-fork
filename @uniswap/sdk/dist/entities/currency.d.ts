@@ -13,6 +13,7 @@ export declare class Currency {
     static readonly ETHER: Currency;
     static readonly MATIC: Currency;
     static readonly TFIL: Currency;
+    static readonly TEVMOS: Currency;
     /**
      * Constructs an instance of the base class `Currency`. The only instance of the base class `Currency` is `Currency.ETHER`.
      * @param decimals decimals of the currency

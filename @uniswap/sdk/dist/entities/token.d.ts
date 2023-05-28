@@ -35,4 +35,5 @@ export declare const WRAPPED_NATIVE: {
     42: Token;
     80001: Token;
     3141: Token;
+    9000: Token;
 };
