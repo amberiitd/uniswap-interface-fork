@@ -1,5 +1,5 @@
 import { Currency, JSBI, TokenAmount, NATIVE_TOKENS } from '@uniswap/sdk'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Plus } from 'react-feather'
 import { Text } from 'rebass'
 import { ButtonDropdownLight } from '../../components/Button'
@@ -19,6 +19,7 @@ import { currencyId } from '../../utils/currencyId'
 import AppBody from '../AppBody'
 import { Dots } from '../Pool/styleds'
 import { ChainId } from '../../../@uniswap/sdk/dist/constants'
+import { ThemeContext } from 'styled-components'
 
 enum Fields {
   TOKEN0 = 0,
@@ -27,6 +28,7 @@ enum Fields {
 
 export default function PoolFinder() {
   const { account, chainId } = useActiveWeb3React()
+  const theme = useContext(ThemeContext)
 
   const [showSearch, setShowSearch] = useState<boolean>(false)
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
@@ -148,7 +150,7 @@ export default function PoolFinder() {
                 <AutoColumn gap="sm" justify="center">
                   <Text textAlign="center">You don’t have liquidity in this pool yet.</Text>
                   <StyledInternalLink to={`/add/${currencyId(currency0, chainId as ChainId)}/${currencyId(currency1, chainId as ChainId)}`}>
-                    <Text textAlign="center">Add liquidity.</Text>
+                    <Text textAlign="center" color={theme.text1}>Add liquidity.</Text>
                   </StyledInternalLink>
                 </AutoColumn>
               </LightCard>

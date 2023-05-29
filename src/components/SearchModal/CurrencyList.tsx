@@ -65,6 +65,7 @@ export default function CurrencyList({
           onClick={() => (isSelected ? null : onCurrencySelect(currency))}
           disabled={isSelected}
           selected={otherSelected}
+          color={theme.text1}
         >
           <RowFixed>
             <CurrencyLogo currency={currency} size={'24px'} style={{ marginRight: '14px' }} />

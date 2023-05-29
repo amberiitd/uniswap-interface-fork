@@ -144,7 +144,7 @@ export default function CurrencySearchModal({
     >
       <Column style={{ width: '100%' }}>
         <PaddedColumn gap="14px">
-          <RowBetween>
+          <RowBetween color={theme.text1}>
             <Text fontWeight={500} fontSize={16}>
               Select a token
               <QuestionHelper
@@ -174,7 +174,7 @@ export default function CurrencySearchModal({
           {showCommonBases && (
             <CommonBases chainId={chainId} onSelect={handleCurrencySelect} selectedCurrency={hiddenCurrency} />
           )}
-          <RowBetween>
+          <RowBetween color={theme.text1}>
             <Text fontSize={14} fontWeight={500}>
               Token Name
             </Text>

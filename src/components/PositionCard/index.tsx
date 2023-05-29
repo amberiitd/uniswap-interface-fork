@@ -1,6 +1,6 @@
 import { JSBI, Pair, Percent } from '@uniswap/sdk'
 import { darken } from 'polished'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import { Link } from 'react-router-dom'
 import { Text } from 'rebass'
@@ -21,6 +21,7 @@ import DoubleCurrencyLogo from '../DoubleLogo'
 import { AutoRow, RowBetween, RowFixed } from '../Row'
 import { Dots } from '../swap/styleds'
 import { ChainId } from '../../../@uniswap/sdk/dist'
+import { ThemeContext } from 'styled-components'
 
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
@@ -126,6 +127,7 @@ export function MinimalPositionCard({ pair, showUnwrapped = false, border }: Pos
 
 export default function FullPositionCard({ pair, border }: PositionCardProps) {
   const { account, chainId } = useActiveWeb3React()
+  const theme = useContext(ThemeContext)
 
   const currency0 = unwrappedToken(pair.token0, chainId)
   const currency1 = unwrappedToken(pair.token1, chainId)
@@ -153,8 +155,8 @@ export default function FullPositionCard({ pair, border }: PositionCardProps) {
       : [undefined, undefined]
 
   return (
-    <HoverCard border={border}>
-      <AutoColumn gap="12px">
+    <HoverCard border={border} color={theme.text1}>
+      <AutoColumn gap="12px" >
         <FixedHeightRow onClick={() => setShowMore(!showMore)} style={{ cursor: 'pointer' }}>
           <RowFixed>
             <DoubleCurrencyLogo currency0={currency0} currency1={currency1} margin={true} size={20} />

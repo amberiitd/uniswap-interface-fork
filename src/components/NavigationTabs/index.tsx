@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
 import { NavLink, Link as HistoryLink } from 'react-router-dom'
+import { ThemeContext } from 'styled-components'
+import { Text } from 'rebass'
 
 import { ArrowLeft } from 'react-feather'
 import { RowBetween } from '../Row'
@@ -84,13 +86,15 @@ export function FindPoolTabs() {
 }
 
 export function AddRemoveTabs({ adding }: { adding: boolean }) {
+    const theme = useContext(ThemeContext)
+
   return (
     <Tabs>
       <RowBetween style={{ padding: '1rem' }}>
         <HistoryLink to="/pool">
           <StyledArrowLeft />
         </HistoryLink>
-        <ActiveText>{adding ? 'Add' : 'Remove'} Liquidity</ActiveText>
+        <ActiveText><Text color={theme.text1}>{adding ? 'Add' : 'Remove'} Liquidity</Text></ActiveText>
         <QuestionHelper
           text={
             adding

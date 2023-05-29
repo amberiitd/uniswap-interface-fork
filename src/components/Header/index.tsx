@@ -1,7 +1,8 @@
 import { ChainId } from '@uniswap/sdk'
-import React from 'react'
+import React, { useContext } from 'react'
 import { isMobile } from 'react-device-detect'
 import { Text } from 'rebass'
+import { ThemeContext } from 'styled-components'
 
 import styled from 'styled-components'
 
@@ -140,6 +141,7 @@ export const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
 
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
+  const theme = useContext(ThemeContext)
 
   const userEthBalance = useETHBalances([account])[account]
   const [isDark] = useDarkModeManager()
@@ -161,7 +163,7 @@ export default function Header() {
             </TestnetWrapper>
             <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
               {account && userEthBalance ? (
-                <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
+                <BalanceText style={{ flexShrink: 0, color: theme.text1 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
                   {userEthBalance?.toSignificant(4)} {TOKEN_LIST_BY_CHAIN_ID[chainId].name}
                 </BalanceText>
               ) : null}

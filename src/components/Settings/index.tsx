@@ -209,7 +209,7 @@ export default function SettingsTab() {
       {open && (
         <MenuFlyout>
           <AutoColumn gap="md" style={{ padding: '1rem' }}>
-            <Text fontWeight={600} fontSize={14}>
+            <Text fontWeight={600} fontSize={14} color={theme.text1}>
               Transaction Settings
             </Text>
             <SlippageTabs
@@ -218,7 +218,7 @@ export default function SettingsTab() {
               deadline={deadline}
               setDeadline={setDeadline}
             />
-            <Text fontWeight={600} fontSize={14}>
+            <Text fontWeight={600} fontSize={14} color={theme.text1}>
               Interface Settings
             </Text>
             <RowBetween>
